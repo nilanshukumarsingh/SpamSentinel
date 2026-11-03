@@ -24,9 +24,9 @@ const NAV_ITEMS = [
 
 export const Sidebar: React.FC = () => {
   return (
-    <aside className="w-64 bg-white border-r border-slate-200 flex flex-col justify-between shrink-0 min-h-[calc(100vh-4rem)]">
+    <aside className="w-64 bg-white dark:bg-slate-900 border-r border-slate-200 dark:border-slate-800 flex flex-col justify-between shrink-0 min-h-[calc(100vh-4rem)] transition-colors">
       <div className="p-4 space-y-1">
-        <div className="px-3 py-2 text-[11px] font-semibold tracking-wider text-slate-400 uppercase">
+        <div className="px-3 py-2 text-[11px] font-semibold tracking-wider text-slate-400 dark:text-slate-500 uppercase">
           Navigation Menu
         </div>
         <nav className="space-y-1">
@@ -39,8 +39,8 @@ export const Sidebar: React.FC = () => {
                 className={({ isActive }) =>
                   `flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-all ${
                     isActive
-                      ? 'bg-indigo-50 text-indigo-700 shadow-xs font-semibold'
-                      : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                      ? 'bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 shadow-xs font-semibold'
+                      : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800/60 hover:text-slate-900 dark:hover:text-slate-100'
                   }`
                 }
               >
@@ -48,7 +48,7 @@ export const Sidebar: React.FC = () => {
                   <>
                     <Icon
                       className={`w-4 h-4 transition-colors ${
-                        isActive ? 'text-indigo-600' : 'text-slate-400'
+                        isActive ? 'text-indigo-600 dark:text-indigo-400' : 'text-slate-400 dark:text-slate-500'
                       }`}
                     />
                     <span>{item.name}</span>
