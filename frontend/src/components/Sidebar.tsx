@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {
+  Home,
   LayoutDashboard,
   ShieldCheck,
   Inbox,
@@ -11,7 +12,8 @@ import {
 } from 'lucide-react';
 
 const NAV_ITEMS = [
-  { name: 'Dashboard', path: '/', icon: LayoutDashboard },
+  { name: 'Landing Overview', path: '/landing', icon: Home },
+  { name: 'Dashboard', path: '/dashboard', icon: LayoutDashboard },
   { name: 'Spam Detector', path: '/detector', icon: ShieldCheck },
   { name: 'Message History', path: '/history', icon: Inbox },
   { name: 'Spam Archive', path: '/archive', icon: Archive },

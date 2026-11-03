@@ -93,30 +93,33 @@ export const Dashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 rounded-2xl p-6 text-white shadow-md flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 text-indigo-400 text-xs font-semibold uppercase tracking-wider">
-            <Cpu className="w-4 h-4" />
+      <div className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-slate-800 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="relative z-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-2">
+            <Cpu className="w-3.5 h-3.5 text-indigo-400" />
             <span>AI-Driven Spam Filtering Engine</span>
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
+            <span className="text-slate-300 font-mono">Laplace α=0.1</span>
           </div>
-          <h1 className="text-2xl font-bold text-white mt-1">
-            SpamSentinel AI Dashboard
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+            Security Telemetry &amp; Operations
           </h1>
-          <p className="text-slate-300 text-sm mt-1 max-w-xl">
-            Real-time SMS & email classification using Multinomial Naive Bayes + TF-IDF with persistent MongoDB archival.
+          <p className="text-slate-300 text-xs sm:text-sm mt-1.5 max-w-2xl leading-relaxed">
+            Real-time SMS &amp; email classification using Multinomial Naive Bayes + TF-IDF with persistent MongoDB archival and compound aggregation telemetry.
           </p>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="relative z-10 flex flex-wrap items-center gap-3">
           <button
             onClick={() => navigate('/detector')}
-            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-lg shadow-sm flex items-center gap-1.5 transition-colors cursor-pointer"
+            className="px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-xs font-semibold rounded-xl shadow-lg shadow-indigo-500/25 flex items-center gap-2 transition-all hover:scale-[1.02] cursor-pointer"
           >
-            <span>Open Full Detector</span>
+            <span>Open Spam Studio</span>
             <ArrowRight className="w-4 h-4" />
           </button>
           <button
             onClick={loadData}
-            className="p-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg transition-colors cursor-pointer"
+            className="p-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-xl transition-all cursor-pointer shadow-sm hover:text-white"
             title="Refresh Analytics"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
