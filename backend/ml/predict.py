@@ -60,21 +60,17 @@ class SpamClassifier:
         """
         Predict whether a raw message is spam or ham.
         Calculates exact confidence score from predict_proba.
+        Rejects empty or whitespace-only inputs with ValueError.
         """
         if not self.is_loaded or self.model is None or self.vectorizer is None:
             raise RuntimeError("Model is not loaded. Train the model first using train_model.py")
 
+        if not raw_text or not raw_text.strip():
+            raise ValueError("Message text cannot be empty or contain only whitespace.")
+
         cleaned = clean_text(raw_text)
         if not cleaned:
-            # Empty or whitespace only
-            return {
-                "prediction": "ham",
-                "confidence": 0.50,
-                "spam_probability": 0.50,
-                "ham_probability": 0.50,
-                "cleaned_text": "",
-                "highlighted_keywords": []
-            }
+            raise ValueError("Message text contains no extractable words or valid characters.")
 
         vec = self.vectorizer.transform([cleaned])
         probabilities = self.model.predict_proba(vec)[0]  # [prob_ham, prob_spam]
@@ -88,7 +84,7 @@ class SpamClassifier:
             prediction = "ham"
             confidence = prob_ham
 
-        # Extract salient spam keywords present in the text
+        # Extract recognized vocabulary tokens ranked by Naive Bayes log-odds impact
         detected_keywords = self._extract_keywords(cleaned)
 
         return {
@@ -101,12 +97,34 @@ class SpamClassifier:
         }
 
     def _extract_keywords(self, cleaned_text: str) -> List[str]:
-        """Identify vocabulary tokens in the message that contributed to the classification."""
-        words = set(cleaned_text.split())
+        """
+        Extract recognized vocabulary tokens present in the input message.
+        Ranks tokens based on the Multinomial Naive Bayes log-likelihood ratio:
+        log P(token | Spam) - log P(token | Ham).
+        Positive values indicate greater association with spam messages.
+        """
+        words = list(set(cleaned_text.split()))
         vocab = self.vectorizer.vocabulary_
-        found_tokens = [w for w in words if w in vocab and len(w) > 2]
-        # Return unique top tokens
-        return found_tokens[:10]
+        tokens = [w for w in words if w in vocab and len(w) > 1]
+        
+        if not tokens:
+            return []
+
+        try:
+            # Feature log-probabilities from MultinomialNB: shape (2, n_features)
+            # Class 0: Ham, Class 1: Spam
+            log_prob_ham = self.model.feature_log_prob_[0]
+            log_prob_spam = self.model.feature_log_prob_[1]
+
+            def token_spam_affinity(tok: str) -> float:
+                idx = vocab[tok]
+                return float(log_prob_spam[idx] - log_prob_ham[idx])
+
+            tokens.sort(key=token_spam_affinity, reverse=True)
+        except Exception:
+            tokens.sort(key=lambda x: len(x), reverse=True)
+
+        return tokens[:10]
 
     def get_metrics(self) -> Dict[str, Any]:
         """Return benchmark metrics calculated during training."""

@@ -93,9 +93,11 @@ flowchart TD
 
 The model is trained on the official **UCI Machine Learning Repository: SMS Spam Collection Dataset**.
 - **Dataset Link:** [https://archive.ics.uci.edu/dataset/228/sms+spam+collection](https://archive.ics.uci.edu/dataset/228/sms+spam+collection)
-- **Dataset Size:** 5,574 labeled communications (4,827 Ham, 747 Spam).
-- **Training Strategy:** 80% Training (4,459 samples), 20% Testing (1,115 samples) with stratified splitting to preserve class balance.
-- **Dataset Scope Note:** The dataset consists of SMS communications. While the web interface accepts text pasted from SMS or emails, the model vocabulary is optimized for real-world SMS spam triggers.
+- **Local Dataset Path:** `DataSets/SMSSpamCollection`
+- **SHA-256 Checksum:** `7d039a24a6083ed9ef0f806ebad56bbb976e3aeb8de05669173bfdc4996c239d` (Size: 477,907 bytes)
+- **Dataset Size:** 5,574 labeled communications (4,827 Ham [86.60%], 747 Spam [13.40%]).
+- **Training Strategy:** 80% Training (4,459 samples), 20% Testing (1,115 samples) with stratified splitting to prevent data leakage.
+- **Dataset Scope & Evaluation Boundary:** The training dataset consists strictly of mobile SMS communications. While the web interface accepts arbitrary text pasted from SMS or emails, the model vocabulary is optimized for SMS communication patterns. Email-specific spam patterns (e.g., HTML structure, MIME headers) have not been independently evaluated.
 
 ---
 
@@ -125,13 +127,16 @@ The classifier was trained using a sublinear TF-IDF vectorizer ($n$-gram range $
 Database Name: `spamguard_db` (or configurable via `.env`).
 
 ### Collection 1: `messages`
-Stores each evaluated communication along with ML predictions and audit status:
+Stores each evaluated communication along with ML predictions, whitelist override metadata, and audit status:
 ```json
 {
   "_id": { "$oid": "6640c72e9d2a4f0012ab34cd" },
   "text": "Congratulations! You have won £1,000 cash prize! Call 0906121 to claim your reward!",
   "sender": "+447911123456",
   "prediction": "spam",
+  "model_prediction": "spam",
+  "classification_source": "ml_model",
+  "whitelist_reason": null,
   "confidence": 0.9872,
   "spam_probability": 0.9872,
   "ham_probability": 0.0128,
@@ -257,20 +262,26 @@ Frontend Web Application will be accessible at: `http://localhost:5173`
 
 ## 13. Running Automated Tests
 
-Run backend tests using PyTest to verify all endpoints and PyMongo CRUD operations:
+Run backend tests using PyTest to verify all endpoints, validation rules, and PyMongo CRUD operations:
 ```bash
 cd backend
 python -m pytest test_backend.py -v
 ```
 
-All 7 test suites will execute and pass:
+All 8 test suites will execute and pass:
 - `test_root_and_health`
+- `test_empty_or_whitespace_message_validation` (rejection with HTTP 422, 0 DB inserts)
 - `test_spam_detection_endpoint`
 - `test_messages_crud`
 - `test_archive_flow`
-- `test_whitelist_flow`
+- `test_whitelist_flow` (verifies `classification_source`, `model_prediction`, and override)
 - `test_analytics_and_metrics`
 - `test_feedback_flow`
+
+You can also run the full pipeline integrity verification:
+```bash
+python verify_pipeline.py
+```
 
 ---
 

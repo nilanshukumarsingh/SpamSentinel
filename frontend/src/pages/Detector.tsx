@@ -65,10 +65,19 @@ export const Detector: React.FC = () => {
     try {
       setErrorMsg(null);
       setLoading(true);
-      const data = await api.detectMessage(text, sender || undefined, 'manual');
+      const data = await api.detectMessage(text.trim(), sender || undefined, 'manual');
       setResult(data);
     } catch (err: any) {
-      setErrorMsg(err.response?.data?.detail || 'Classification request failed.');
+      let message = 'Classification request failed.';
+      const detail = err.response?.data?.detail;
+      if (detail) {
+        if (Array.isArray(detail)) {
+          message = detail.map((d: any) => d.msg || JSON.stringify(d)).join(', ');
+        } else {
+          message = String(detail);
+        }
+      }
+      setErrorMsg(message);
     } finally {
       setLoading(false);
     }
@@ -221,11 +230,32 @@ export const Detector: React.FC = () => {
         {result && (
           <div className="border-t border-slate-200 bg-slate-50/70 p-6 animate-fadeIn">
             <div className="max-w-3xl mx-auto space-y-5">
+              {/* Whitelist Override Explanatory Banner if applicable */}
+              {result.classification_source === 'whitelist' && (
+                <div className="p-4 rounded-xl bg-blue-50 border border-blue-200 flex items-start gap-3 text-xs text-blue-900 shadow-2xs">
+                  <BookmarkCheck className="w-5 h-5 text-blue-600 shrink-0 mt-0.5" />
+                  <div>
+                    <span className="font-bold text-sm block text-blue-950">Administrative Whitelist Override Active</span>
+                    <p className="mt-0.5 text-blue-800">
+                      This message matched a trusted rule in MongoDB (<span className="font-semibold">{result.whitelist_reason || 'Approved Whitelist Entry'}</span>). 
+                      The effective classification is forced to <strong className="text-emerald-700 uppercase font-bold">HAM (SAFE)</strong> with 100% policy confidence.
+                    </p>
+                    {result.model_prediction && (
+                      <p className="mt-2 font-mono text-[11px] text-blue-900 bg-blue-100/80 inline-block px-2.5 py-1 rounded-md border border-blue-200">
+                        Raw ML Model Prediction: <strong>{result.model_prediction.toUpperCase()}</strong> (Model Spam Probability: {((result.spam_probability ?? 0) * 100).toFixed(1)}%)
+                      </p>
+                    )}
+                  </div>
+                </div>
+              )}
+
               {/* Prediction Badge & Confidence Banner */}
               <div
                 className={`p-5 rounded-2xl border flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 shadow-xs ${
                   result.prediction === 'spam'
                     ? 'bg-rose-50/90 border-rose-200'
+                    : result.classification_source === 'whitelist'
+                    ? 'bg-blue-50/90 border-blue-200'
                     : 'bg-emerald-50/90 border-emerald-200'
                 }`}
               >
@@ -234,6 +264,8 @@ export const Detector: React.FC = () => {
                     className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 ${
                       result.prediction === 'spam'
                         ? 'bg-rose-600 text-white shadow-md shadow-rose-500/30'
+                        : result.classification_source === 'whitelist'
+                        ? 'bg-blue-600 text-white shadow-md shadow-blue-500/30'
                         : 'bg-emerald-600 text-white shadow-md shadow-emerald-500/30'
                     }`}
                   >
@@ -246,12 +278,18 @@ export const Detector: React.FC = () => {
                   <div>
                     <div className="flex items-center gap-2">
                       <span className="text-xl font-bold tracking-tight text-slate-900">
-                        {result.prediction === 'spam' ? 'SPAM DETECTED' : 'LEGITIMATE (HAM)'}
+                        {result.classification_source === 'whitelist'
+                          ? 'WHITELIST OVERRIDE (SAFE)'
+                          : result.prediction === 'spam'
+                          ? 'SPAM DETECTED'
+                          : 'LEGITIMATE (HAM)'}
                       </span>
                       <Badge type="status" value={result.status} />
                     </div>
                     <p className="text-xs text-slate-600 mt-0.5">
-                      {result.prediction === 'spam'
+                      {result.classification_source === 'whitelist'
+                        ? 'Administrative policy bypassed ML filter. Approved by verified sender/keyword rule.'
+                        : result.prediction === 'spam'
                         ? 'This message matches known spam keywords and promotional patterns.'
                         : 'This message shows standard interpersonal or conversational features.'}
                     </p>
@@ -261,11 +299,15 @@ export const Detector: React.FC = () => {
                 {/* Confidence Pill */}
                 <div className="text-right shrink-0">
                   <span className="text-xs font-semibold text-slate-500 block uppercase tracking-wider">
-                    Confidence Score
+                    {result.classification_source === 'whitelist' ? 'Policy Confidence' : 'Confidence Score'}
                   </span>
                   <span
                     className={`text-2xl font-black font-mono tracking-tight ${
-                      result.prediction === 'spam' ? 'text-rose-600' : 'text-emerald-600'
+                      result.prediction === 'spam'
+                        ? 'text-rose-600'
+                        : result.classification_source === 'whitelist'
+                        ? 'text-blue-700'
+                        : 'text-emerald-600'
                     }`}
                   >
                     {(result.confidence * 100).toFixed(1)}%
@@ -300,12 +342,17 @@ export const Detector: React.FC = () => {
                 </div>
               </div>
 
-              {/* Salient Keyword Tokens */}
+              {/* Recognized Vocabulary Tokens */}
               {result.highlighted_keywords && result.highlighted_keywords.length > 0 && (
                 <div className="bg-white p-4 rounded-xl border border-slate-200">
-                  <span className="text-xs font-bold text-slate-600 uppercase tracking-wider block mb-2">
-                    Model TF-IDF Feature Tokens Triggered:
-                  </span>
+                  <div className="flex flex-col sm:flex-row sm:items-baseline justify-between mb-2">
+                    <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                      Recognized Vocabulary Tokens
+                    </span>
+                    <span className="text-[11px] text-slate-400">
+                      Tokens in model TF-IDF vocabulary, ranked by Naive Bayes log-odds impact
+                    </span>
+                  </div>
                   <div className="flex flex-wrap gap-1.5">
                     {result.highlighted_keywords.map((kw, idx) => (
                       <span

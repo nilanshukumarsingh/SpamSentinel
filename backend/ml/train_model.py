@@ -8,6 +8,7 @@ import os
 import io
 import json
 import zipfile
+import hashlib
 import urllib.request
 from pathlib import Path
 import pandas as pd
@@ -86,10 +87,15 @@ def load_and_preprocess_data(dataset_path: Path) -> pd.DataFrame:
     return df
 
 def train_and_evaluate():
-    """Train TF-IDF + MultinomialNB classifier and save metrics."""
+    """Train TF-IDF + MultinomialNB classifier and save metrics with full dataset metadata."""
     SAVED_MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
     dataset_path = download_dataset()
+    dataset_sha256 = hashlib.sha256(dataset_path.read_bytes()).hexdigest()
+    dataset_size_bytes = dataset_path.stat().st_size
+    print(f"Dataset SHA-256 Checksum: {dataset_sha256}")
+    print(f"Dataset Size on disk:     {dataset_size_bytes} bytes")
+
     df = load_and_preprocess_data(dataset_path)
 
     # Stratified train-test split (80% train, 20% test)
@@ -132,6 +138,32 @@ def train_and_evaluate():
 
     metrics = {
         "dataset_name": "UCI SMS Spam Collection",
+        "dataset_metadata": {
+            "resolved_path": str(dataset_path.resolve()),
+            "sha256_checksum": dataset_sha256,
+            "file_size_bytes": dataset_size_bytes,
+            "total_records": len(df),
+            "ham_count": int((df['target'] == 0).sum()),
+            "spam_count": int((df['target'] == 1).sum()),
+            "ham_percentage": round(float((df['target'] == 0).sum() / len(df) * 100), 2),
+            "spam_percentage": round(float((df['target'] == 1).sum() / len(df) * 100), 2),
+        },
+        "training_configuration": {
+            "test_split_ratio": 0.20,
+            "random_state": 42,
+            "stratified": True,
+            "vectorizer": {
+                "algorithm": "TfidfVectorizer",
+                "max_features": 5000,
+                "ngram_range": [1, 2],
+                "stop_words": "english",
+                "sublinear_tf": True
+            },
+            "classifier": {
+                "algorithm": "MultinomialNB",
+                "alpha": 0.1
+            }
+        },
         "dataset_size": len(df),
         "train_size": len(X_train),
         "test_size": len(X_test),

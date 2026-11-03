@@ -32,6 +32,7 @@ export const Dashboard: React.FC = () => {
   const [quickSender, setQuickSender] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
   const [quickResult, setQuickResult] = useState<Message | null>(null);
+  const [quickError, setQuickError] = useState<string | null>(null);
 
   const loadData = async () => {
     try {
@@ -51,14 +52,23 @@ export const Dashboard: React.FC = () => {
 
   const handleQuickAnalyze = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!quickText.trim()) return;
+    if (!quickText.trim()) {
+      setQuickError("Message text cannot be empty or contain only whitespace.");
+      return;
+    }
     try {
+      setQuickError(null);
       setAnalyzing(true);
-      const res = await api.detectMessage(quickText, quickSender || undefined);
+      const res = await api.detectMessage(quickText.trim(), quickSender || undefined);
       setQuickResult(res);
       loadData(); // refresh dashboard stats
-    } catch (e) {
-      console.error(e);
+    } catch (err: any) {
+      let msg = "Classification failed.";
+      const detail = err.response?.data?.detail;
+      if (detail) {
+        msg = Array.isArray(detail) ? detail.map((d: any) => d.msg || JSON.stringify(d)).join(', ') : String(detail);
+      }
+      setQuickError(msg);
     } finally {
       setAnalyzing(false);
     }
@@ -178,9 +188,14 @@ export const Dashboard: React.FC = () => {
                 onChange={(e) => setQuickText(e.target.value)}
                 className="w-full text-xs p-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-hidden focus:ring-1 focus:ring-indigo-500 resize-none font-sans"
               />
+              {quickError && (
+                <div className="p-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs font-medium">
+                  {quickError}
+                </div>
+              )}
               <button
                 type="submit"
-                disabled={analyzing || !quickText.trim()}
+                disabled={analyzing}
                 className="w-full py-2 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-lg flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
               >
                 {analyzing ? (
@@ -195,19 +210,29 @@ export const Dashboard: React.FC = () => {
 
           {/* Quick Result Preview */}
           {quickResult && (
-            <div className="mt-4 p-3.5 rounded-xl border border-indigo-100 bg-indigo-50/50 space-y-2 animate-fadeIn">
+            <div className={`mt-4 p-3.5 rounded-xl border space-y-2 animate-fadeIn ${
+              quickResult.classification_source === 'whitelist'
+                ? 'bg-blue-50/70 border-blue-200'
+                : 'bg-indigo-50/50 border-indigo-100'
+            }`}>
               <div className="flex items-center justify-between">
                 <span className="text-xs font-semibold text-slate-700">Classification Result:</span>
                 <Badge
                   type="prediction"
                   value={quickResult.prediction}
                   confidence={quickResult.confidence}
+                  source={quickResult.classification_source}
                 />
               </div>
+              {quickResult.classification_source === 'whitelist' && (
+                <p className="text-[11px] text-blue-800 font-medium">
+                  Policy Override: Forced to HAM (ML would predict: {quickResult.model_prediction?.toUpperCase()})
+                </p>
+              )}
               <p className="text-xs text-slate-600 line-clamp-2 italic">
                 "{quickResult.text}"
               </p>
-              <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1 border-t border-indigo-100">
+              <div className="flex items-center justify-between text-[11px] text-slate-500 pt-1 border-t border-slate-200/60">
                 <span>Stored in MongoDB</span>
                 <button
                   type="button"

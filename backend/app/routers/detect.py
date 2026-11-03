@@ -21,19 +21,30 @@ class BatchDetectRequest(BaseModel):
 def detect_message(payload: MessageDetectRequest):
     """
     Main Spam Classification Endpoint:
-    1. Validates input text
-    2. Consults MongoDB Whitelist
-    3. Runs TF-IDF + Multinomial Naive Bayes Model
-    4. Records document in MongoDB messages collection
-    5. Returns prediction, confidence, and metadata
+    1. Validates input text (rejects empty / whitespace-only inputs with HTTP 422)
+    2. Runs ML Model & checks MongoDB Whitelist
+    3. Records document in MongoDB messages collection
+    4. Returns prediction, confidence, and metadata
     """
+    cleaned_input = payload.text.strip() if payload.text else ""
+    if not cleaned_input:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail="Message text cannot be empty or contain only whitespace."
+        )
+
     try:
         result = SpamDetectionService.detect_and_store(
-            text=payload.text,
+            text=cleaned_input,
             sender=payload.sender,
             source=payload.source or "manual"
         )
         return result
+    except ValueError as ve:
+        raise HTTPException(
+            status_code=status.HTTP_422_UNPROCESSABLE_ENTITY,
+            detail=str(ve)
+        )
     except Exception as e:
         raise HTTPException(
             status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,

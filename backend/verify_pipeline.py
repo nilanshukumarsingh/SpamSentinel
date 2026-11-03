@@ -28,9 +28,14 @@ def run_verification():
     print("STEP 1: VERIFY DATASET USAGE (DataSets/SMSSpamCollection)")
     print("=" * 70)
     
+    import hashlib
+    file_bytes = DATASET_FILE.read_bytes()
+    sha256_hash = hashlib.sha256(file_bytes).hexdigest()
     print(f"1.1 Resolved Dataset Path: {DATASET_FILE.resolve()}")
     assert DATASET_FILE.exists(), f"Error: Dataset file not found at {DATASET_FILE}"
     print(f"    File exists: True (Size: {DATASET_FILE.stat().st_size:,} bytes)")
+    print(f"    SHA-256 Checksum: {sha256_hash}")
+    assert sha256_hash == "7d039a24a6083ed9ef0f806ebad56bbb976e3aeb8de05669173bfdc4996c239d", "Checksum mismatch!"
 
     # Read tab-separated data
     df = pd.read_csv(
@@ -133,9 +138,24 @@ def run_verification():
     print(f"Tokens:        {res_typed_ham['highlighted_keywords']}")
     assert res_typed_ham['prediction'] == 'ham', "Failed on typed ham message!"
 
+    # Empty message rejection verification
+    print("\n--- TEST CASE E: Empty and Whitespace Validation ---")
+    try:
+        classifier_instance.predict("")
+        assert False, "Should have raised ValueError on empty string!"
+    except ValueError as ve:
+        print(f"Empty input correctly rejected with ValueError: '{ve}'")
+
+    try:
+        classifier_instance.predict("   \n\t   ")
+        assert False, "Should have raised ValueError on whitespace-only string!"
+    except ValueError as ve:
+        print(f"Whitespace input correctly rejected with ValueError: '{ve}'")
+
     print("\n" + "=" * 70)
     print("VERIFICATION COMPLETE: ALL CHECKS PASSED SUCCESSFULLY")
     print("=" * 70)
 
 if __name__ == "__main__":
     run_verification()
+

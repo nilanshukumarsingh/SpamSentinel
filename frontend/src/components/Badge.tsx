@@ -6,9 +6,19 @@ interface BadgeProps {
   type: 'prediction' | 'status';
   value: PredictionType | MessageStatus;
   confidence?: number;
+  source?: 'ml_model' | 'whitelist';
 }
 
-export const Badge: React.FC<BadgeProps> = ({ type, value, confidence }) => {
+export const Badge: React.FC<BadgeProps> = ({ type, value, confidence, source }) => {
+  if (source === 'whitelist') {
+    return (
+      <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold tracking-wide uppercase bg-blue-100 text-blue-800 border border-blue-300 shadow-xs">
+        <BookmarkCheck className="w-3.5 h-3.5 text-blue-600" />
+        <span>WHITELIST OVERRIDE</span>
+      </span>
+    );
+  }
+
   if (type === 'prediction') {
     const isSpam = value === 'spam';
     return (

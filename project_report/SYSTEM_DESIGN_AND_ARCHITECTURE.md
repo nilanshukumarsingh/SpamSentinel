@@ -6,7 +6,7 @@
 Course Code:        CSE-494 (Intelligent NoSQL Databases)
 Student Name:       Nilanshu Kumar Singh
 Repository:         https://github.com/nilanshukumarsingh/SpamSentinel
-Academic Session:   Spring 2025
+Academic Session:   2024-2025 (Spring Semester)
 ```
 
 ---
@@ -77,8 +77,10 @@ graph TD
 
 ### 2.3 Machine Learning Pipeline
 1. **Cleaning:** Lowercase, regex replacement of URLs (`http_url`), monetary values (`currency_symbol`), and numeric codes (`num_code`).
-2. **Feature Extraction:** Sublinear TF-IDF scaling over 5,000 vocabulary unigrams and bigrams.
+2. **Feature Extraction:** Sublinear TF-IDF scaling over 5,000 vocabulary unigrams and bigrams fitted strictly on training data.
 3. **Inference:** Multinomial Naive Bayes posterior probability evaluation yielding class prediction and exact confidence percentage.
+4. **Explainability & Token Impact:** Salient tokens are extracted and ranked based on MultinomialNB log-odds difference: $\log P(w|\text{spam}) - \log P(w|\text{ham})$, labeled as "Recognized Vocabulary Tokens".
+5. **Dataset Scope & Evaluation:** Trained on the official UCI SMS Spam Collection (SHA-256: `7d039a24a6083ed9ef0f806ebad56bbb976e3aeb8de05669173bfdc4996c239d`). The system accepts pasted email bodies via the web UI, but accuracy metrics are benchmarked on the SMS corpus; email-specific accuracy has not been independently evaluated.
 
 ### 2.4 Database Tier (PyMongo)
 - **Database:** `spamguard_db`
@@ -98,6 +100,9 @@ erDiagram
         string text
         string sender
         string prediction "spam | ham"
+        string model_prediction "spam | ham"
+        string classification_source "ml_model | whitelist"
+        string whitelist_reason
         float confidence
         float spam_probability
         float ham_probability
@@ -145,19 +150,24 @@ sequenceDiagram
 
     User->>UI: Enters message text & clicks "Analyze Message"
     UI->>API: POST /api/detect { text, sender }
-    API->>Whitelist: Query matching sender / keyword
-    alt Whitelist Rule Matched
-        Whitelist-->>API: Match Found
-        Note over API: Force Ham, 100% confidence, status="whitelisted"
-    else No Whitelist Match
+    alt Text is empty or whitespace-only
+        API-->>UI: Return HTTP 422 Unprocessable Entity
+    else Valid Text
         API->>ML: Pass text for tokenization & vectorization
         ML->>ML: Compute TF-IDF features & predict_proba()
-        ML-->>API: { prediction: "spam", confidence: 0.9874, tokens: [...] }
+        ML-->>API: { model_prediction: "spam", confidence: 0.9874, tokens: [...] }
+        API->>Whitelist: Query matching sender / keyword
+        alt Whitelist Rule Matched
+            Whitelist-->>API: Match Found
+            Note over API: Force prediction="ham", confidence=1.0, classification_source="whitelist", status="whitelisted"
+        else No Whitelist Match
+            Note over API: Set prediction=model_prediction, classification_source="ml_model", status="unreviewed"
+        end
+        API->>Messages: col.insert_one(document)
+        Messages-->>API: Inserted ObjectId
+        API-->>UI: Return HTTP 201 Created with JSON document
+        UI->>User: Displays Spam/Ham badge, confidence gauge, and token chips
     end
-    API->>Messages: col.insert_one(document)
-    Messages-->>API: Inserted ObjectId
-    API-->>UI: Return HTTP 201 Created with JSON document
-    UI->>User: Displays Spam/Ham badge, confidence gauge, and token chips
 ```
 
 ---
@@ -229,7 +239,7 @@ db.messages.aggregate([
 
 | Method | Endpoint | Description | Request Body | Response Code |
 |---|---|---|---|---|
-| `POST` | `/api/detect` | Runs ML inference & saves to MongoDB | `{ text, sender, source }` | `201 Created` |
+| `POST` | `/api/detect` | Runs ML inference & saves to MongoDB (rejects empty/whitespace with 422) | `{ text, sender, source }` | `201 Created` / `422` |
 | `POST` | `/api/detect/batch` | Classifies multiple messages | `{ messages: [string] }` | `200 OK` |
 | `POST` | `/api/detect/seed-samples` | Seeds 8 realistic demo messages | None | `200 OK` |
 | `GET` | `/api/messages` | Searchable & paginated message query | Query parameters | `200 OK` |

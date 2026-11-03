@@ -118,8 +118,28 @@ def test_archive_flow():
     # Cleanup
     client.delete(f"/api/messages/{msg_id}")
 
+def test_empty_or_whitespace_message_validation():
+    """Verify empty or whitespace-only messages are rejected with HTTP 422 and not saved to DB."""
+    # Count messages before attempt
+    initial_count = db_manager.db["messages"].count_documents({}) if db_manager.db is not None else 0
+
+    # 1. Empty string test
+    res_empty = client.post("/api/detect", json={"text": "", "sender": "Tester"})
+    assert res_empty.status_code == 422
+    assert "cannot be empty" in res_empty.text
+
+    # 2. Whitespace-only string test
+    res_ws = client.post("/api/detect", json={"text": "   \n\t   ", "sender": "Tester"})
+    assert res_ws.status_code == 422
+    assert "cannot be empty" in res_ws.text
+
+    # Confirm no new record was created in MongoDB
+    if db_manager.db is not None:
+        after_count = db_manager.db["messages"].count_documents({})
+        assert after_count == initial_count
+
 def test_whitelist_flow():
-    """Test adding, listing, and deleting a whitelist entry."""
+    """Test adding, listing, overriding, and deleting a whitelist entry with clear ML separation."""
     rule_payload = {
         "value": "trusted-partner@domain.org",
         "type": "sender",
@@ -134,18 +154,23 @@ def test_whitelist_flow():
     assert get_wl.status_code == 200
     assert any(w["id"] == wl_id for w in get_wl.json())
 
-    # Whitelist override test: send message from whitelisted sender
+    # Whitelist override test: send promotional spam message from whitelisted sender
     override_res = client.post("/api/detect", json={
-        "text": "Special offer inside!",
+        "text": "URGENT! You won £1,000 cash prize! Call 0906121 to claim your reward instantly!",
         "sender": "trusted-partner@domain.org"
     })
     assert override_res.status_code == 201
-    assert override_res.json()["prediction"] == "ham"
-    assert override_res.json()["status"] == "whitelisted"
+    data = override_res.json()
+    assert data["prediction"] == "ham"
+    assert data["classification_source"] == "whitelist"
+    assert data["model_prediction"] == "spam"  # Model accurately flagged spam, but whitelist overrode!
+    assert data["status"] == "whitelisted"
+    assert "whitelist_reason" in data and "trusted-partner@domain.org" in data["whitelist_reason"]
 
-    # Cleanup whitelist rule
+    # Cleanup whitelist rule and message
     del_wl = client.delete(f"/api/whitelist/{wl_id}")
     assert del_wl.status_code == 200
+    client.delete(f"/api/messages/{data['id']}")
 
 def test_analytics_and_metrics():
     """Test GET /api/analytics and /api/analytics/model-metrics."""

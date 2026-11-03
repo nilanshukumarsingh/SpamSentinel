@@ -137,6 +137,20 @@ export const MessageModal: React.FC<MessageModalProps> = ({
                   </span>
                 </div>
                 <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/60">
+                  <span className="text-slate-400 block font-medium">Classification Source:</span>
+                  <span className={`font-semibold capitalize ${message.classification_source === 'whitelist' ? 'text-blue-700 font-bold' : 'text-slate-800'}`}>
+                    {message.classification_source === 'whitelist' ? 'Whitelist Override' : 'ML Model'}
+                  </span>
+                </div>
+                {message.classification_source === 'whitelist' && message.model_prediction && (
+                  <div className="p-3 rounded-lg bg-blue-50/70 border border-blue-200 col-span-2 sm:col-span-3">
+                    <span className="text-blue-600 block font-medium">Whitelist Policy Reason & Raw ML Output:</span>
+                    <span className="font-semibold text-blue-900 block mt-0.5">
+                      {message.whitelist_reason || 'Approved Sender/Keyword Rule'} — Model predicted: {message.model_prediction.toUpperCase()}
+                    </span>
+                  </div>
+                )}
+                <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/60">
                   <span className="text-slate-400 block font-medium">Origin Source:</span>
                   <span className="font-semibold text-slate-800 capitalize">{message.source}</span>
                 </div>
@@ -146,19 +160,22 @@ export const MessageModal: React.FC<MessageModalProps> = ({
                     {new Date(message.created_at).toLocaleString()}
                   </span>
                 </div>
-                <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/60 col-span-2">
+                <div className="p-3 rounded-lg bg-slate-50 border border-slate-200/60 col-span-2 sm:col-span-1">
                   <span className="text-slate-400 block font-medium">MongoDB _id:</span>
-                  <span className="font-mono text-indigo-700 font-semibold">{message.id}</span>
+                  <span className="font-mono text-indigo-700 font-semibold truncate block">{message.id}</span>
                 </div>
               </div>
 
               {/* Significant Keywords */}
               {message.highlighted_keywords && message.highlighted_keywords.length > 0 && (
                 <div>
-                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-400">
-                    Extracted TF-IDF Feature Tokens
+                  <label className="text-xs font-semibold uppercase tracking-wider text-slate-500 block mb-1">
+                    Recognized Vocabulary Tokens
                   </label>
-                  <div className="mt-2 flex flex-wrap gap-1.5">
+                  <p className="text-[11px] text-slate-400 mb-2">
+                    Tokens present in model vocabulary, ranked by Naive Bayes log-odds impact
+                  </p>
+                  <div className="mt-1 flex flex-wrap gap-1.5">
                     {message.highlighted_keywords.map((kw, i) => (
                       <span
                         key={i}

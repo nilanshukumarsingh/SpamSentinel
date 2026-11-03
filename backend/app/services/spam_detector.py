@@ -45,30 +45,37 @@ class SpamDetectionService:
     def detect_and_store(cls, text: str, sender: Optional[str] = None, source: str = "manual") -> Dict[str, Any]:
         """
         End-to-End detection flow:
-        1. Query MongoDB Whitelist
-        2. Perform ML feature extraction and inference
-        3. Insert message into MongoDB 'messages' collection
-        4. Return formatted response
+        1. Reject empty or whitespace inputs
+        2. Run ML feature extraction & inference for transparency
+        3. Check MongoDB Whitelist overrides
+        4. Insert message into MongoDB 'messages' collection
+        5. Return formatted response distinguishing ML prediction from whitelist decision
         """
-        # Step 1: Whitelist Check
+        if not text or not text.strip():
+            raise ValueError("Message text cannot be empty or contain only whitespace.")
+
+        # Step 1: Execute ML Model Inference
+        ml_res = classifier_instance.predict(text)
+        model_prediction = ml_res["prediction"]
+        prob_spam = ml_res["spam_probability"]
+        prob_ham = ml_res["ham_probability"]
+        keywords = ml_res.get("highlighted_keywords", [])
+
+        # Step 2: Check Whitelist Override Rules
         whitelist_match = cls.check_whitelist(text, sender)
         
         if whitelist_match:
-            prediction = "ham"
+            prediction = "ham"  # Final effective classification
             confidence = 1.00
-            prob_spam = 0.00
-            prob_ham = 1.00
+            classification_source = "whitelist"
             status = "whitelisted"
-            keywords = ["whitelisted_override"]
+            whitelist_reason = whitelist_match.get("reason", "Approved in Whitelist")
         else:
-            # Step 2: ML Inference
-            ml_res = classifier_instance.predict(text)
-            prediction = ml_res["prediction"]
+            prediction = model_prediction
             confidence = ml_res["confidence"]
-            prob_spam = ml_res["spam_probability"]
-            prob_ham = ml_res["ham_probability"]
-            keywords = ml_res.get("highlighted_keywords", [])
+            classification_source = "ml_model"
             status = "unreviewed"
+            whitelist_reason = None
 
         # Step 3: MongoDB Document Insertion (PyMongo create operation)
         now = datetime.now(timezone.utc)
@@ -76,6 +83,9 @@ class SpamDetectionService:
             "text": text,
             "sender": sender,
             "prediction": prediction,
+            "model_prediction": model_prediction,
+            "classification_source": classification_source,
+            "whitelist_reason": whitelist_reason,
             "confidence": confidence,
             "spam_probability": prob_spam,
             "ham_probability": prob_ham,

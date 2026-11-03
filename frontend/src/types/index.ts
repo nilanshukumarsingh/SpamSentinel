@@ -6,6 +6,9 @@ export interface Message {
   id: string;
   text: string;
   prediction: PredictionType;
+  model_prediction?: PredictionType;
+  classification_source?: 'ml_model' | 'whitelist';
+  whitelist_reason?: string;
   confidence: number;
   status: MessageStatus;
   source: string;

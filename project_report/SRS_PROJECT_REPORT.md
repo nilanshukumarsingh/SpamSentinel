@@ -7,7 +7,7 @@ Course Code:        CSE-494
 Course Name:        Intelligent NoSQL Databases
 Student Name:       Nilanshu Kumar Singh
 GitHub Repository:  https://github.com/nilanshukumarsingh/SpamSentinel
-Academic Session:   Spring 2025
+Academic Session:   2024-2025 (Spring Semester)
 Assessment:         Continuous Assessment 3 (CA-3)
 Institution:        School of Computer Science and Engineering,
                     Lovely Professional University, Phagwara, Punjab
@@ -100,7 +100,9 @@ The purpose of this document is to specify the comprehensive software, algorithm
    - **Delete:** Remove single documents (`delete_one`) or perform bulk purge via **"Empty Spam Folder"** (`delete_many`).
 7. Execute real-time analytics using MongoDB aggregation pipelines (`$facet`, `$group`, `$unwind`, `$sortByCount`).
 
-#### Out of Scope:
+#### Out of Scope & Dataset Limitations:
+- **Dataset Limitation:** The underlying machine learning model is trained and benchmarked strictly on the **UCI SMS Spam Collection dataset** (5,574 English SMS messages; SHA-256: `7d039a24a6083ed9ef0f806ebad56bbb976e3aeb8de05669173bfdc4996c239d`).
+- **Email Evaluation Scope:** The web interface accepts text pasted from emails as well as SMS communications. However, email-specific classification performance has not been independently evaluated against dedicated email spam corpora (such as Enron Spam or Apache SpamAssassin).
 - Ingestion of multimedia MMS/audio attachments or optical character recognition (OCR) of image-based spam.
 - Direct OAuth2 credential scanning of live private Gmail inboxes in the baseline version (users paste text into the application).
 
@@ -198,19 +200,19 @@ SpamSentinel AI operates as an intelligent message filtering and archival gatewa
 
 #### 3.2.1 Feature #1: Text Input Sanitization and Token Extraction
 - **Introduction:** Normalizes raw message text while preserving critical spam indicators.
-- **Inputs:** Raw text string (length: 1 to 5,000 characters).
+- **Inputs:** Raw text string (length: 1 to 5,000 characters). Empty or whitespace-only inputs are rejected at the Pydantic validator level.
 - **Processing:** Lowercase conversion, whitespace stripping, URL replacement with `http_url`, currency replacement with `currency_symbol`, phone/numeric replacement with `num_code`.
-- **Outputs:** Normalized token string and list of triggered vocabulary features.
-- **Error Handling:** Empty or whitespace-only inputs return HTTP 422 Unprocessable Entity.
+- **Outputs:** Normalized token string and list of recognized vocabulary tokens ranked by Naive Bayes log-odds impact.
+- **Error Handling:** Empty or whitespace-only inputs return **HTTP 422 Unprocessable Entity** immediately. No document is inserted into MongoDB.
 
 #### 3.2.2 Feature #2: Machine Learning Spam/Ham Inference
 - **Introduction:** Converts preprocessed text into TF-IDF vector features and evaluates posterior class probabilities.
 - **Inputs:** Cleaned text string.
 - **Processing:** Vectorization with pre-fitted 5,000-feature vocabulary ($n$-gram $1$–$2$). Multinomial Naive Bayes `predict_proba()` evaluation with Laplace smoothing $\alpha = 0.1$.
-- **Outputs:** Label (`spam` or `ham`), confidence score (e.g., $0.9874$), and class probability breakdown.
+- **Outputs:** Label (`spam` or `ham`), confidence score (e.g., $0.9874$), class probability breakdown, and recognized vocabulary tokens ranked by log-odds ratio.
 
 #### 3.2.3 Feature #3: PyMongo CRUD Operations
-- **FR-CRUD-1 (Create):** System executes `col.insert_one(doc)` inserting `text`, `sender`, `prediction`, `confidence`, `status: "unreviewed"`, and UTC timestamps into `messages`.
+- **FR-CRUD-1 (Create):** System executes `col.insert_one(doc)` inserting `text`, `sender`, `prediction`, `model_prediction`, `classification_source`, `confidence`, `status: "unreviewed"`, and UTC timestamps into `messages`.
 - **FR-CRUD-2 (Read):** System executes `col.find(query).sort().skip().limit()` supporting case-insensitive `$regex` and `$or` searches on text and sender fields.
 - **FR-CRUD-3 (Update):** System executes `col.find_one_and_update({"_id": ObjectId(id)}, {"$set": {"status": "whitelisted"}})` allowing users to mark false alarms.
 - **FR-CRUD-4 (Delete):** System executes `col.delete_one({"_id": ObjectId(id)})` to remove individual records permanently.
@@ -221,8 +223,8 @@ SpamSentinel AI operates as an intelligent message filtering and archival gatewa
 - **Outputs:** Count of deleted documents and status confirmation.
 
 #### 3.2.5 Feature #5: Administrative Whitelist Rule Engine
-- **Introduction:** Consults MongoDB `whitelist` collection prior to running ML inference.
-- **Processing:** If sender matches a whitelist document or text contains an approved keyword, the message is tagged `prediction: "ham"` and `status: "whitelisted"` with 100% confidence.
+- **Introduction:** Consults MongoDB `whitelist` collection while maintaining complete machine learning transparency.
+- **Processing:** The ML model is always evaluated on input text to determine `model_prediction`. If sender matches a whitelist document or text contains an approved keyword, the final classification is forced to `prediction: "ham"` and `status: "whitelisted"` with `classification_source: "whitelist"` and the matching rule explanation recorded in `whitelist_reason`. If no whitelist rule matches, `classification_source` is set to `"ml_model"`.
 
 #### 3.2.6 Feature #6: Live MongoDB Aggregation Analytics
 - **Introduction:** Calculates system KPIs via multi-stage MongoDB aggregation pipelines.
@@ -389,10 +391,13 @@ User Input (Text + Sender)
   "text": "Congratulations! You have won a £1,000 cash prize! Call 0906121 to claim your reward!",
   "sender": "+447911123456",
   "prediction": "spam",
+  "model_prediction": "spam",
+  "classification_source": "ml_model",
+  "whitelist_reason": null,
   "confidence": 1.0,
   "spam_probability": 1.0,
   "ham_probability": 0.0,
-  "highlighted_keywords": ["cash", "claim", "currency_symbol", "num_code", "prize", "won"],
+  "highlighted_keywords": ["num_code", "cash", "claim", "currency_symbol", "prize", "won"],
   "status": "unreviewed",
   "source": "manual",
   "created_at": { "$date": "2025-03-16T10:15:30.000Z" },
@@ -428,10 +433,15 @@ User Input (Text + Sender)
 ### A.2 Appendix 2: Model Performance Baseline (UCI SMS Spam Dataset)
 
 - **Dataset Source:** UCI Machine Learning Repository (SMS Spam Collection v.1)
-- **Dataset Size:** 5,574 samples (4,827 Ham, 747 Spam)
-- **Train/Test Split:** 80% Training ($N = 4,459$) / 20% Stratified Testing ($N = 1,115$)
-- **Feature Extraction:** Sublinear TF-IDF ($1$–$2$ $n$-grams, 5,000 vocabulary tokens)
-- **Classifier:** Multinomial Naive Bayes ($\alpha = 0.1$)
+- **Local File Path:** `DataSets/SMSSpamCollection`
+- **SHA-256 Checksum:** `7d039a24a6083ed9ef0f806ebad56bbb976e3aeb8de05669173bfdc4996c239d`
+- **File Size on Disk:** 477,907 bytes
+- **Total Dataset Size:** 5,574 samples (4,827 Ham [86.60%], 747 Spam [13.40%])
+- **Train/Test Procedure:**
+  - Split: 80% Training ($N = 4,459$) / 20% Stratified Holdout Testing ($N = 1,115$).
+  - Data leakage prevention: `TfidfVectorizer` fitted exclusively on training set; test set transformed.
+  - Model: `MultinomialNB(alpha=0.1)` trained on training features.
+  - Evaluated on holdout test set using exact Scikit-learn classification metrics.
 
 ```text
 ======================= MODEL EVALUATION REPORT =======================
