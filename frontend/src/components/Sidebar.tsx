@@ -7,8 +7,7 @@ import {
   Archive,
   UserCheck,
   BarChart3,
-  Database,
-  GraduationCap
+  Database
 } from 'lucide-react';
 
 const NAV_ITEMS = [
@@ -57,22 +56,6 @@ export const Sidebar: React.FC = () => {
             );
           })}
         </nav>
-      </div>
-
-      {/* Academic Project Viva Card */}
-      <div className="p-4 m-3 rounded-xl bg-gradient-to-br from-slate-900 to-indigo-950 text-white shadow-sm">
-        <div className="flex items-center gap-2 mb-2 text-indigo-300">
-          <GraduationCap className="w-4 h-4" />
-          <span className="text-xs font-bold uppercase tracking-wider">CSE-494 Project</span>
-        </div>
-        <h4 className="text-xs font-semibold text-slate-200">Intelligent NoSQL DBs</h4>
-        <p className="text-[11px] text-slate-400 mt-1 leading-snug">
-          Powered by PyMongo Driver with MongoDB CRUD & Aggregation Pipelines.
-        </p>
-        <div className="mt-3 pt-2 border-t border-indigo-900/60 flex items-center justify-between text-[10px] text-indigo-300">
-          <span>Spring 2025</span>
-          <span className="px-1.5 py-0.5 rounded bg-indigo-500/20 text-indigo-300 font-mono">v2.0</span>
-        </div>
       </div>
     </aside>
   );
