@@ -29,18 +29,32 @@ class SpamClassifier:
         self.load()
 
     def load(self):
-        """Load trained artifacts from disk."""
-        if MODEL_FILE.exists() and VECTORIZER_FILE.exists():
-            self.model = joblib.load(MODEL_FILE)
-            self.vectorizer = joblib.load(VECTORIZER_FILE)
-            self.is_loaded = True
-            if METRICS_FILE.exists():
-                with open(METRICS_FILE, "r", encoding="utf-8") as f:
-                    self.metrics = json.load(f)
-            print("SpamClassifier artifacts loaded successfully.")
+        """Load trained artifacts from disk with detailed diagnostic logging."""
+        model_exists = MODEL_FILE.exists()
+        vectorizer_exists = VECTORIZER_FILE.exists()
+
+        print(f"\n================ MODEL STARTUP VERIFICATION ================")
+        print(f"Model file path:       {MODEL_FILE.resolve()}")
+        print(f"Vectorizer file path:  {VECTORIZER_FILE.resolve()}")
+        print(f"Model file exists:     {model_exists}")
+        print(f"Vectorizer exists:     {vectorizer_exists}")
+
+        if model_exists and vectorizer_exists:
+            try:
+                self.model = joblib.load(MODEL_FILE)
+                self.vectorizer = joblib.load(VECTORIZER_FILE)
+                self.is_loaded = True
+                if METRICS_FILE.exists():
+                    with open(METRICS_FILE, "r", encoding="utf-8") as f:
+                        self.metrics = json.load(f)
+                print(f"Model loading success: True (Loaded {type(self.model).__name__} & {type(self.vectorizer).__name__})")
+            except Exception as e:
+                self.is_loaded = False
+                print(f"Model loading success: False (Error: {e})")
         else:
-            print("Model artifacts not found. Model training required.")
             self.is_loaded = False
+            print("Model loading success: False (Required model artifacts missing on disk)")
+        print(f"============================================================\n")
 
     def predict(self, raw_text: str) -> Dict[str, Any]:
         """

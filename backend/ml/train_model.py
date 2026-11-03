@@ -18,7 +18,13 @@ from sklearn.naive_bayes import MultinomialNB
 from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, classification_report
 import joblib
 
-from preprocess import clean_text
+try:
+    from ml.preprocess import clean_text
+except (ImportError, ValueError):
+    try:
+        from .preprocess import clean_text
+    except (ImportError, ValueError):
+        from preprocess import clean_text
 
 UCI_DATASET_URL = "https://archive.ics.uci.edu/static/public/228/sms+spam+collection.zip"
 

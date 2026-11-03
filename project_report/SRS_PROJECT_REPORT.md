@@ -508,3 +508,4 @@ summary_pipeline = [
 ]
 res = list(messages_col.aggregate(summary_pipeline))[0]
 ```
+

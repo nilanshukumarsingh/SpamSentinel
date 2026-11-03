@@ -35,9 +35,8 @@ async def lifespan(app: FastAPI):
     db_manager.connect()
 
     # Step 2: Ensure ML Model is loaded
-    if not classifier_instance.is_loaded:
-        print("Loading ML model...")
-        classifier_instance.load()
+    print(f"Verifying ML Model artifacts for {settings.PROJECT_NAME}...")
+    classifier_instance.load()
 
     # Step 3: Seed initial demo messages if collection is empty
     try:

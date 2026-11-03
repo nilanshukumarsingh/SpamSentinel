@@ -247,3 +247,4 @@ db.messages.aggregate([
 | `GET` | `/api/analytics/model-metrics`| Returns benchmark ML metrics | None | `200 OK` |
 | `POST` | `/api/feedback` | Records false-positive/negative audit | `{ message_id, actual_label, ... }` | `201 Created` |
 | `GET` | `/api/health` | Health check & PyMongo ping | None | `200 OK` |
+
