@@ -202,7 +202,7 @@ function StarRow({ rating }: { rating: number }) {
 
 function Card({ t }: { t: Testimonial }) {
   return (
-    <figure className="group/card relative rounded-2xl border border-zinc-800 bg-[#09090b] p-5 shadow-sm backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-[#00BCD4]/50 hover:shadow-md">
+    <figure className="group/card relative rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#09090b] p-5 shadow-sm backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-[#00BCD4]/50 hover:shadow-md">
       <div className="flex items-start justify-between gap-3">
         <StarRow rating={t.rating} />
         <svg
@@ -214,11 +214,11 @@ function Card({ t }: { t: Testimonial }) {
         </svg>
       </div>
 
-      <blockquote className="mt-3 text-[0.88rem] leading-relaxed text-zinc-300 font-sans">
+      <blockquote className="mt-3 text-[0.88rem] leading-relaxed text-slate-700 dark:text-zinc-300 font-sans">
         "{t.quote}"
       </blockquote>
 
-      <figcaption className="mt-4 flex items-center gap-3 border-t border-zinc-800/80 pt-3.5">
+      <figcaption className="mt-4 flex items-center gap-3 border-t border-slate-100 dark:border-zinc-800/80 pt-3.5">
         <span
           className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-xs font-bold ring-1 ${t.tone}`}
           aria-hidden="true"
@@ -226,10 +226,10 @@ function Card({ t }: { t: Testimonial }) {
           {initials(t.name)}
         </span>
         <span className="min-w-0">
-          <span className="block truncate text-xs font-bold text-white">
+          <span className="block truncate text-xs font-bold text-slate-900 dark:text-white">
             {t.name}
           </span>
-          <span className="block truncate text-[11px] text-zinc-400">
+          <span className="block truncate text-[11px] text-slate-500 dark:text-zinc-400">
             {t.role} · {t.company}
           </span>
         </span>
@@ -282,7 +282,7 @@ export const MqxVertical: React.FC = () => {
 
   return (
     <section
-      className="mqxv-root relative w-full overflow-hidden bg-black py-20 sm:py-28"
+      className="mqxv-root relative w-full overflow-hidden bg-slate-50 dark:bg-black py-20 sm:py-28 transition-colors duration-200"
       aria-labelledby={`${regionId}-title`}
       data-mqxv-playing={rootPlaying ? "true" : "false"}
     >
@@ -324,7 +324,7 @@ export const MqxVertical: React.FC = () => {
         {/* Header + controls */}
         <div className="flex flex-col gap-8 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-xl">
-            <span className="inline-flex items-center gap-2 rounded-full border border-zinc-800 bg-zinc-900/80 px-3 py-1 text-xs font-semibold text-zinc-300">
+            <span className="inline-flex items-center gap-2 rounded-full border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900/80 px-3 py-1 text-xs font-semibold text-slate-700 dark:text-zinc-300 shadow-xs">
               <span className="relative flex h-2 w-2">
                 <span className="mqxv-dot absolute inline-flex h-full w-full rounded-full bg-[#00BCD4]" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00BCD4]" />
@@ -334,11 +334,11 @@ export const MqxVertical: React.FC = () => {
 
             <h2
               id={`${regionId}-title`}
-              className="mt-4 text-3xl font-black tracking-tight text-white sm:text-4xl"
+              className="mt-4 text-3xl font-black tracking-tight text-slate-900 dark:text-white sm:text-4xl font-display"
             >
               Verified System Telemetry &amp; Field Benchmarks
             </h2>
-            <p className="mt-3 text-sm leading-relaxed text-zinc-400">
+            <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
               Real calculations, real metrics. Here is how the system performs across high-volume SMS and email threat feeds.
             </p>
           </div>
@@ -346,7 +346,7 @@ export const MqxVertical: React.FC = () => {
           {/* Controls */}
           <div className="flex shrink-0 flex-wrap items-center gap-3">
             {staticMode ? (
-              <p className="max-w-[15rem] text-xs text-zinc-400">
+              <p className="max-w-[15rem] text-xs text-slate-500 dark:text-zinc-400">
                 Motion paused to match reduced-motion setting. Scroll each column to read.
               </p>
             ) : (
@@ -356,7 +356,7 @@ export const MqxVertical: React.FC = () => {
                   onClick={() => setPlaying((p) => !p)}
                   aria-pressed={!playing}
                   aria-label={playing ? "Pause scrolling reviews" : "Play scrolling reviews"}
-                  className="inline-flex items-center gap-2 rounded-xl border border-zinc-800 bg-zinc-900 px-4 py-2 text-xs font-bold text-zinc-200 transition hover:border-[#00BCD4] hover:text-[#00BCD4] focus-visible:outline-none cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-2 text-xs font-bold text-slate-700 dark:text-zinc-200 transition hover:border-[#00BCD4] hover:text-[#00BCD4] focus-visible:outline-none cursor-pointer shadow-xs"
                 >
                   {playing ? (
                     <svg viewBox="0 0 20 20" className="h-4 w-4 fill-current" aria-hidden="true">
@@ -374,7 +374,7 @@ export const MqxVertical: React.FC = () => {
                 <div
                   role="radiogroup"
                   aria-label="Scroll speed"
-                  className="inline-flex items-center rounded-xl border border-zinc-800 bg-zinc-900 p-1"
+                  className="inline-flex items-center rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-1 shadow-xs"
                 >
                   {SPEEDS.map((s, i) => {
                     const active = s.id === speed;
@@ -393,7 +393,7 @@ export const MqxVertical: React.FC = () => {
                         className={`rounded-lg px-3 py-1 text-xs font-bold transition focus-visible:outline-none cursor-pointer ${
                           active
                             ? "bg-[#00BCD4] text-black shadow-sm"
-                            : "text-zinc-400 hover:text-white"
+                            : "text-slate-500 dark:text-zinc-400 hover:text-slate-900 dark:hover:text-white"
                         }`}
                       >
                         {s.label}

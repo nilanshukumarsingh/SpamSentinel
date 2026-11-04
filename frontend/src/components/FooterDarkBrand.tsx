@@ -33,14 +33,14 @@ export const FooterDarkBrand: React.FC = () => {
   ];
 
   return (
-    <section className="bg-black px-6 py-16 dark:bg-black md:py-24 border-t border-zinc-900">
+    <section className="bg-slate-100 dark:bg-black px-6 py-16 md:py-24 border-t border-slate-200 dark:border-zinc-900 transition-colors duration-200">
       <footer className="mx-auto max-w-6xl">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           <div className="col-span-2 sm:col-span-1">
-            <h3 className="text-sm font-bold uppercase tracking-wider text-white">
+            <h3 className="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white font-display">
               SpamSentinel AI
             </h3>
-            <p className="mt-3 text-sm leading-relaxed text-zinc-400">
+            <p className="mt-3 text-sm leading-relaxed text-slate-600 dark:text-zinc-400">
               Intelligent SMS &amp; Email Spam Detection and Persistent Archival System using MongoDB &amp; PyMongo.
             </p>
             <div className="mt-4 flex items-center gap-3">
@@ -49,7 +49,7 @@ export const FooterDarkBrand: React.FC = () => {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="GitHub Repository"
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-zinc-900 border border-zinc-800 text-zinc-300 transition hover:bg-[#00BCD4] hover:text-black hover:border-[#00BCD4]"
+                className="flex h-9 w-9 items-center justify-center rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-700 dark:text-zinc-300 transition hover:bg-[#00BCD4] hover:text-black hover:border-[#00BCD4] shadow-xs"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
                   <path
@@ -64,21 +64,21 @@ export const FooterDarkBrand: React.FC = () => {
 
           {columns.map((col) => (
             <nav key={col.heading} aria-label={col.heading}>
-              <h3 className="text-xs font-bold uppercase tracking-wider text-white">{col.heading}</h3>
+              <h3 className="text-xs font-bold uppercase tracking-wider text-slate-900 dark:text-white">{col.heading}</h3>
               <ul className="mt-4 space-y-3">
                 {col.links.map((link) => (
                   <li key={link.label}>
                     {link.href.startsWith("/") ? (
                       <Link
                         to={link.href}
-                        className="text-xs text-zinc-400 transition hover:text-[#00BCD4]"
+                        className="text-xs text-slate-600 dark:text-zinc-400 transition hover:text-[#00BCD4] dark:hover:text-[#00BCD4]"
                       >
                         {link.label}
                       </Link>
                     ) : (
                       <a
                         href={link.href}
-                        className="text-xs text-zinc-400 transition hover:text-[#00BCD4]"
+                        className="text-xs text-slate-600 dark:text-zinc-400 transition hover:text-[#00BCD4] dark:hover:text-[#00BCD4]"
                       >
                         {link.label}
                       </a>
@@ -91,18 +91,18 @@ export const FooterDarkBrand: React.FC = () => {
         </div>
 
         {/* Giant typography banner */}
-        <div className="mt-14 border-t border-zinc-900 pt-10">
+        <div className="mt-14 border-t border-slate-200 dark:border-zinc-900 pt-10">
           <span
             aria-hidden="true"
-            className="block bg-gradient-to-b from-zinc-200 via-zinc-600 to-zinc-900 bg-clip-text text-5xl font-black leading-none tracking-tighter text-transparent sm:text-7xl lg:text-[8rem] select-none"
+            className="block bg-gradient-to-b from-slate-900 via-slate-500 to-slate-200 dark:from-zinc-200 dark:via-zinc-600 dark:to-zinc-900 bg-clip-text text-5xl font-black leading-none tracking-tighter text-transparent sm:text-7xl lg:text-[8rem] select-none"
           >
             SPAMSENTINEL
           </span>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="text-xs text-zinc-500">
+            <p className="text-xs text-slate-500 dark:text-zinc-500">
               &copy; {new Date().getFullYear()} Nilanshu Kumar Singh • CSE-494 Project.
             </p>
-            <div className="flex items-center gap-2 text-xs text-zinc-400">
+            <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-zinc-400">
               <span className="relative flex h-2 w-2">
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-500/70" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
