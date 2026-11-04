@@ -152,13 +152,13 @@ export const NoSQLExplorer: React.FC = () => {
         <div>
           <div className="flex items-center gap-2 text-indigo-400 text-xs font-semibold uppercase tracking-wider">
             <Database className="w-4 h-4" />
-            <span>CSE-494: Intelligent NoSQL Databases</span>
+            <span>High-Performance NoSQL Engine</span>
           </div>
           <h1 className="text-2xl font-bold text-white mt-1">
-            MongoDB & PyMongo Operations Explorer
+            MongoDB &amp; PyMongo Operations Explorer
           </h1>
           <p className="text-slate-300 text-sm mt-1 max-w-xl">
-            Interactive guide to all NoSQL database operations used in SpamSentinel AI. Ideal for faculty review, viva examinations, and CA-3 presentations.
+            Interactive guide to all NoSQL database operations, compound aggregations, and CRUD queries used in SpamSentinel AI.
           </p>
         </div>
       </div>

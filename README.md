@@ -1,9 +1,9 @@
 # SpamSentinel AI: Intelligent SMS & Email Spam Detection and Archival System using MongoDB
 
-> **Course Code:** CSE-494  
-> **Course Name:** Intelligent NoSQL Databases  
-> **Project Type:** Continuous Assessment 3 (CA-3) Full-Stack Demonstration  
-> **Architecture:** React 19 + TypeScript + Vite + Tailwind CSS + Python FastAPI + PyMongo 4.x + Scikit-Learn + MongoDB 8.x  
+> **Project:** Intelligent Spam Detection & Archival System  
+> **Persistence Engine:** MongoDB 8.x + Native PyMongo Driver  
+> **Machine Learning:** Scikit-Learn TF-IDF + Multinomial Naive Bayes  
+> **Architecture:** React 19 + TypeScript + Vite + Tailwind CSS + Python FastAPI + PyMongo 4.x  
 
 ---
 

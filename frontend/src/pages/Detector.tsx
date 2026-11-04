@@ -35,9 +35,9 @@ const SAMPLE_MESSAGES = [
     text: 'Hey Rohan, are we still meeting up for lunch at the cafeteria around 1:30 PM today?',
   },
   {
-    title: 'University / Assignment Notice',
-    sender: 'Prof. Verma',
-    text: 'Reminder for CSE-494 students: Please submit your Intelligent NoSQL database lab report before Friday 5 PM.',
+    title: 'Internal Team Notice',
+    sender: 'Operations Lead',
+    text: 'Reminder for engineering team: Please review and submit your quarterly database migration checklist before Friday 5 PM.',
   },
   {
     title: 'Promotional Lottery Offer',

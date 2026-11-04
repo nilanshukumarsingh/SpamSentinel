@@ -51,7 +51,7 @@ async def lifespan(app: FastAPI):
                     ("URGENT! Your account security has been compromised. Verify immediately at http://secure-login.bank-update.info", "SecurityDesk"),
                     ("Can you send me the lecture notes for chapter 4 when you get home?", "+919123456789"),
                     ("Exclusive promo: Claim your 50% discount coupon today only. Text CLAIM to 88088 now!", "PromoCenter"),
-                    ("The assignment deadline for CSE-494 has been extended until Friday evening.", "CourseInstructor"),
+                    ("The project sprint deadline has been extended until Friday evening.", "ProjectManager"),
                     ("Free entry in 2 a wkly comp to win FA Cup final tkts 21st May 2005. Text FA to 87121 to receive entry.", "87121"),
                     ("Are you free this weekend to work on the project documentation?", "+919876543211")
                 ]
@@ -64,8 +64,8 @@ async def lifespan(app: FastAPI):
                 if wl_col.count_documents({}) == 0:
                     from datetime import datetime, timezone
                     wl_col.insert_many([
-                        {"value": "CourseInstructor", "type": "sender", "note": "Verified Professor", "created_at": datetime.now(timezone.utc)},
-                        {"value": "university.edu", "type": "domain", "note": "Academic institution emails", "created_at": datetime.now(timezone.utc)},
+                        {"value": "ProjectManager", "type": "sender", "note": "Verified Team Lead", "created_at": datetime.now(timezone.utc)},
+                        {"value": "organization.com", "type": "domain", "note": "Internal verified organization emails", "created_at": datetime.now(timezone.utc)},
                     ])
                     print("Initial whitelist entries seeded successfully.")
     except Exception as e:

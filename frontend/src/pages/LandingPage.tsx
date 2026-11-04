@@ -143,7 +143,7 @@ export const LandingPage: React.FC = () => {
                 SpamSentinel <span className="text-[#00BCD4]">AI.</span>
               </span>
               <span className="text-[10px] text-slate-500 dark:text-zinc-400 tracking-wider uppercase font-medium">
-                CSE-494 • Intelligent NoSQL
+                AI Security &amp; Threat Intelligence
               </span>
             </div>
           </Link>
@@ -219,7 +219,7 @@ export const LandingPage: React.FC = () => {
                 </li>
                 <li className="flex items-center gap-3">
                   <MapPin className="w-4 h-4 text-[#00BCD4]" />
-                  <span>School of Computer Science &amp; Engineering, LPU</span>
+                  <span>Threat Intelligence &amp; Cloud Security Operations</span>
                 </li>
               </ul>
             </div>

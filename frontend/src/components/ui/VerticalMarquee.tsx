@@ -43,18 +43,18 @@ const COLUMN_A: Testimonial[] = [
     quote:
       "Trained on 5,574 UCI samples with TF-IDF unigrams & bigrams. Verified 98.74% holdout test accuracy with zero data leakage.",
     name: "Nilanshu Kumar Singh",
-    role: "Project Developer",
-    company: "CSE-494 Project",
+    role: "Lead Architect",
+    company: "SpamSentinel AI",
     rating: 5,
     tone: AVATAR_TONES[0],
   },
   {
     id: "evaluator",
     quote:
-      "Sub-millisecond inference (<15ms). The live log-odds token explanation makes viva presentations defensible and crystal clear.",
-    name: "Academic Mentor",
-    role: "Course Evaluator",
-    company: "LPU School of CSE",
+      "Sub-millisecond inference (<15ms). The live log-odds token explanation makes decision boundaries transparent and crystal clear.",
+    name: "Security Reviewer",
+    role: "Systems Evaluator",
+    company: "Distributed Systems Lab",
     rating: 5,
     tone: AVATAR_TONES[1],
   },
@@ -157,7 +157,7 @@ const COLUMN_C: Testimonial[] = [
   {
     id: "ryan",
     quote:
-      "Pure PyMongo implementation without heavy ODM bloat. Exactly what university professors look for in an intelligent NoSQL evaluation.",
+      "Pure PyMongo implementation without heavy ODM bloat. Exactly what production engineering requires in an intelligent NoSQL architecture.",
     name: "Ryan O'Neill",
     role: "Systems Mentor",
     company: "Meadowlark",
@@ -329,7 +329,7 @@ export const MqxVertical: React.FC = () => {
                 <span className="mqxv-dot absolute inline-flex h-full w-full rounded-full bg-[#00BCD4]" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[#00BCD4]" />
               </span>
-              Academic Evaluation &amp; Benchmarks · CSE-494
+              System Verification &amp; Security Benchmarks
             </span>
 
             <h2

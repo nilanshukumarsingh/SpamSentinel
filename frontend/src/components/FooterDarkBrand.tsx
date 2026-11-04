@@ -22,12 +22,12 @@ export const FooterDarkBrand: React.FC = () => {
       ],
     },
     {
-      heading: "Course Assessment",
+      heading: "Resources & Docs",
       links: [
-        { label: "CSE-494: Intelligent NoSQL", href: "#" },
-        { label: "LPU School of CSE", href: "#" },
+        { label: "Interactive API Docs", href: "http://localhost:8000/docs" },
         { label: "UCI Dataset Attribution", href: "https://archive.ics.uci.edu/dataset/228/sms+spam+collection" },
-        { label: "FastAPI REST Docs", href: "http://localhost:8000/docs" },
+        { label: "GitHub Repository", href: "https://github.com/nilanshukumarsingh/SpamSentinel" },
+        { label: "System Health & Uptime", href: "http://localhost:8000/api/health" },
       ],
     },
   ];
@@ -100,7 +100,7 @@ export const FooterDarkBrand: React.FC = () => {
           </span>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-xs text-slate-500 dark:text-zinc-500">
-              &copy; {new Date().getFullYear()} Nilanshu Kumar Singh • CSE-494 Project.
+              &copy; {new Date().getFullYear()} Nilanshu Kumar Singh • SpamSentinel AI.
             </p>
             <div className="flex items-center gap-2 text-xs text-slate-600 dark:text-zinc-400">
               <span className="relative flex h-2 w-2">

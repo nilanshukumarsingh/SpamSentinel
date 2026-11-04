@@ -3,14 +3,10 @@
 ## SpamSentinel AI: Intelligent SMS & Email Spam Detection and Archival System using MongoDB
 
 ```text
-Course Code:        CSE-494
-Course Name:        Intelligent NoSQL Databases
-Student Name:       Nilanshu Kumar Singh
+Project:            SpamSentinel AI
+Domain:             Intelligent Spam Detection & Document Persistence
+Developer:          Nilanshu Kumar Singh
 GitHub Repository:  https://github.com/nilanshukumarsingh/SpamSentinel
-Academic Session:   2024-2025 (Spring Semester)
-Assessment:         Continuous Assessment 3 (CA-3)
-Institution:        School of Computer Science and Engineering,
-                    Lovely Professional University, Phagwara, Punjab
 ```
 
 ---

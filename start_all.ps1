@@ -1,6 +1,6 @@
 Write-Host "=======================================================================" -ForegroundColor Cyan
 Write-Host "  SpamSentinel AI: Intelligent Spam Detection & Archival System" -ForegroundColor Green
-Write-Host "  Course: CSE-494 (Intelligent NoSQL Databases)" -ForegroundColor Yellow
+Write-Host "  High-Performance Intelligent Spam Detection & Archival System" -ForegroundColor Yellow
 Write-Host "=======================================================================" -ForegroundColor Cyan
 Write-Host ""
 

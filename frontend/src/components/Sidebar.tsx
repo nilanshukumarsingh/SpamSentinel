@@ -186,7 +186,7 @@ export const Sidebar: React.FC = () => {
                 SpamSentinel <span className="text-[#00BCD4]">AI</span>
               </span>
               <span className="truncate text-[10px] font-semibold text-zinc-500 uppercase tracking-widest">
-                Intelligent NoSQL
+                Threat Intelligence
               </span>
             </motion.div>
           ) : null}
