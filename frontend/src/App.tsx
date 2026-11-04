@@ -20,29 +20,31 @@ function AppLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#0b0f19] flex flex-col font-sans text-slate-800 dark:text-slate-100 transition-colors duration-200">
-      {/* Top Navbar */}
+    <div className="h-screen w-screen overflow-hidden bg-slate-50 dark:bg-[#0b0f19] flex flex-col font-sans text-slate-800 dark:text-slate-100 transition-colors duration-150">
+      {/* Fixed Full-Width Top Navbar */}
       <Navbar />
 
-      {/* Main Content Layout */}
-      <div className="flex-1 flex max-w-7xl w-full mx-auto">
-        {/* Sidebar */}
-        <div className="hidden md:block">
+      {/* Main Layout Area: Fixed Sidebar on Left + Scrollable Content on Right */}
+      <div className="flex-1 flex overflow-hidden w-full">
+        {/* Constant Left Sidebar */}
+        <div className="hidden md:block h-full">
           <Sidebar />
         </div>
 
-        {/* Page View Area */}
-        <main className="flex-1 p-4 sm:p-6 lg:p-8 min-w-0">
-          <Routes>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/detector" element={<Detector />} />
-            <Route path="/history" element={<History />} />
-            <Route path="/archive" element={<Archive />} />
-            <Route path="/whitelist" element={<Whitelist />} />
-            <Route path="/analytics" element={<Analytics />} />
-            <Route path="/nosql" element={<NoSQLExplorer />} />
-            <Route path="*" element={<Navigate to="/dashboard" replace />} />
-          </Routes>
+        {/* Scrollable Page Viewport */}
+        <main className="flex-1 h-full overflow-y-auto p-4 sm:p-6 lg:p-8 min-w-0">
+          <div className="max-w-6xl mx-auto">
+            <Routes>
+              <Route path="/dashboard" element={<Dashboard />} />
+              <Route path="/detector" element={<Detector />} />
+              <Route path="/history" element={<History />} />
+              <Route path="/archive" element={<Archive />} />
+              <Route path="/whitelist" element={<Whitelist />} />
+              <Route path="/analytics" element={<Analytics />} />
+              <Route path="/nosql" element={<NoSQLExplorer />} />
+              <Route path="*" element={<Navigate to="/dashboard" replace />} />
+            </Routes>
+          </div>
         </main>
       </div>
     </div>

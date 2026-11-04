@@ -19,7 +19,7 @@ import { StatCard } from '../components/StatCard';
 import { Badge } from '../components/Badge';
 import { MessageModal } from '../components/Modal';
 
-const PIE_COLORS = ['#f43f5e', '#10b981']; // Rose (Spam), Emerald (Ham)
+const PIE_COLORS = ['#ef4444', '#10b981']; // Balanced Red (Spam), Emerald Green (Ham)
 
 export const Dashboard: React.FC = () => {
   const navigate = useNavigate();
@@ -93,33 +93,30 @@ export const Dashboard: React.FC = () => {
   return (
     <div className="space-y-6">
       {/* Top Banner */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-slate-800 flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
-        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-        <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold uppercase tracking-wider mb-2">
-            <Cpu className="w-3.5 h-3.5 text-indigo-400" />
-            <span>AI-Driven Spam Filtering Engine</span>
-            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400" />
-            <span className="text-slate-300 font-mono">Laplace α=0.1</span>
+      <div className="bg-white dark:bg-[#111827] rounded-2xl p-6 border border-slate-200 dark:border-slate-800/80 shadow-xs flex flex-col md:flex-row md:items-center md:justify-between gap-4 transition-colors">
+        <div>
+          <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-indigo-600 dark:text-indigo-400 uppercase tracking-wider mb-1">
+            <Cpu className="w-3.5 h-3.5" />
+            <span>Multinomial Naive Bayes + TF-IDF</span>
           </div>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
+          <h1 className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white tracking-tight">
             Security Telemetry &amp; Operations
           </h1>
-          <p className="text-slate-300 text-xs sm:text-sm mt-1.5 max-w-2xl leading-relaxed">
-            Real-time SMS &amp; email classification using Multinomial Naive Bayes + TF-IDF with persistent MongoDB archival and compound aggregation telemetry.
+          <p className="text-slate-500 dark:text-slate-400 text-xs sm:text-sm mt-1 max-w-xl">
+            Real-time SMS &amp; email classification with persistent MongoDB document archival and aggregation telemetry.
           </p>
         </div>
-        <div className="relative z-10 flex flex-wrap items-center gap-3">
+        <div className="flex items-center gap-2.5">
           <button
             onClick={() => navigate('/detector')}
-            className="px-4 py-2.5 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white text-xs font-semibold rounded-xl shadow-lg shadow-indigo-500/25 flex items-center gap-2 transition-all hover:scale-[1.02] cursor-pointer"
+            className="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl shadow-xs flex items-center gap-2 transition-colors cursor-pointer"
           >
             <span>Open Spam Studio</span>
             <ArrowRight className="w-4 h-4" />
           </button>
           <button
             onClick={loadData}
-            className="p-2.5 bg-slate-800/80 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-xl transition-all cursor-pointer shadow-sm hover:text-white"
+            className="p-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700/80 text-slate-600 dark:text-slate-300 rounded-xl transition-colors cursor-pointer"
             title="Refresh Analytics"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
@@ -163,14 +160,14 @@ export const Dashboard: React.FC = () => {
       {/* Charts & Quick Test Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Quick Test Widget */}
-        <div className="lg:col-span-1 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-xs flex flex-col justify-between transition-colors">
+        <div className="lg:col-span-1 bg-white dark:bg-[#111827] rounded-2xl border border-slate-200 dark:border-slate-800/80 p-5 shadow-xs flex flex-col justify-between transition-colors">
           <div>
             <div className="flex items-center justify-between mb-3">
-              <h2 className="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wide flex items-center gap-2">
+              <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide flex items-center gap-2">
                 <Sparkles className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
                 Quick Test Scanner
               </h2>
-              <span className="text-[10px] text-slate-500 dark:text-slate-400 font-mono">Live PyMongo</span>
+              <span className="text-[10px] text-slate-400 font-mono">Live PyMongo</span>
             </div>
             <p className="text-xs text-slate-500 dark:text-slate-400 mb-4">
               Instantly classify any message snippet and view classification &amp; confidence.
@@ -182,24 +179,24 @@ export const Dashboard: React.FC = () => {
                 placeholder="Sender ID / Phone / Email (Optional)"
                 value={quickSender}
                 onChange={(e) => setQuickSender(e.target.value)}
-                className="w-full text-xs px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-xl focus:outline-hidden focus:ring-1 focus:ring-indigo-500"
+                className="w-full text-xs px-3.5 py-2.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-slate-800 dark:text-slate-100 rounded-xl focus:outline-hidden focus:ring-1 focus:ring-indigo-500 transition-colors"
               />
               <textarea
                 rows={3}
                 placeholder="Paste message text to test (e.g., You won £1,000 cash prize!)..."
                 value={quickText}
                 onChange={(e) => setQuickText(e.target.value)}
-                className="w-full text-xs p-3.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700 text-slate-800 dark:text-slate-100 rounded-xl focus:outline-hidden focus:ring-1 focus:ring-indigo-500 resize-none font-sans"
+                className="w-full text-xs p-3.5 bg-slate-50 dark:bg-slate-800/80 border border-slate-200 dark:border-slate-700/80 text-slate-800 dark:text-slate-100 rounded-xl focus:outline-hidden focus:ring-1 focus:ring-indigo-500 resize-none font-sans transition-colors"
               />
               {quickError && (
-                <div className="p-2.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-800 text-rose-700 dark:text-rose-300 text-xs font-medium">
+                <div className="p-2.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-rose-700 dark:text-rose-300 text-xs font-medium">
                   {quickError}
                 </div>
               )}
               <button
                 type="submit"
                 disabled={analyzing}
-                className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-700 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50 shadow-md shadow-indigo-600/20"
+                className="w-full py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold rounded-xl flex items-center justify-center gap-1.5 transition-colors cursor-pointer disabled:opacity-50"
               >
                 {analyzing ? (
                   <RefreshCw className="w-3.5 h-3.5 animate-spin" />
@@ -215,7 +212,7 @@ export const Dashboard: React.FC = () => {
           {quickResult && (
             <div className={`mt-4 p-3.5 rounded-xl border space-y-2 animate-fadeIn ${
               quickResult.classification_source === 'whitelist'
-                ? 'bg-blue-50/70 dark:bg-blue-950/40 border-blue-200 dark:border-blue-800'
+                ? 'bg-blue-50/70 dark:bg-blue-950/40 border-blue-200 dark:border-blue-900/50'
                 : 'bg-indigo-50/50 dark:bg-indigo-950/30 border-indigo-100 dark:border-indigo-900/40'
             }`}>
               <div className="flex items-center justify-between">
@@ -250,9 +247,9 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Spam vs Ham Ratio Pie Chart */}
-        <div className="lg:col-span-1 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-xs flex flex-col justify-between transition-colors">
+        <div className="lg:col-span-1 bg-white dark:bg-[#111827] rounded-2xl border border-slate-200 dark:border-slate-800/80 p-5 shadow-xs flex flex-col justify-between transition-colors">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wide">
+            <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
               Spam vs Ham Ratio
             </h2>
             <span className="text-xs font-semibold text-rose-600 dark:text-rose-400">
@@ -267,13 +264,13 @@ export const Dashboard: React.FC = () => {
                     data={pieData}
                     cx="50%"
                     cy="50%"
-                    innerRadius={50}
-                    outerRadius={75}
+                    innerRadius={52}
+                    outerRadius={76}
                     paddingAngle={4}
                     dataKey="value"
                   >
                     {pieData.map((_, index) => (
-                      <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} />
+                      <Cell key={`cell-${index}`} fill={PIE_COLORS[index % PIE_COLORS.length]} stroke="transparent" />
                     ))}
                   </Pie>
                   <Tooltip />
@@ -286,12 +283,12 @@ export const Dashboard: React.FC = () => {
               </div>
             )}
           </div>
-          <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800 text-center text-xs">
-            <div className="p-2 rounded-lg bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300">
+          <div className="grid grid-cols-2 gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/80 text-center text-xs">
+            <div className="p-2 rounded-xl bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300">
               <span className="block font-bold">{summary.spam_count}</span>
               <span className="text-[10px] text-rose-600 dark:text-rose-400">Spam Messages</span>
             </div>
-            <div className="p-2 rounded-lg bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300">
+            <div className="p-2 rounded-xl bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300">
               <span className="block font-bold">{summary.ham_count}</span>
               <span className="text-[10px] text-emerald-600 dark:text-emerald-400">Legitimate (Ham)</span>
             </div>
@@ -299,22 +296,22 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Activity Timeline Chart */}
-        <div className="lg:col-span-1 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-xs flex flex-col justify-between transition-colors">
+        <div className="lg:col-span-1 bg-white dark:bg-[#111827] rounded-2xl border border-slate-200 dark:border-slate-800/80 p-5 shadow-xs flex flex-col justify-between transition-colors">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wide">
-              Activity Histogram
+            <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
+              Activity Inflow
             </h2>
-            <span className="text-xs text-slate-500 dark:text-slate-400 font-mono">PyMongo $group</span>
+            <span className="text-xs text-slate-400 font-mono">PyMongo $group</span>
           </div>
           <div className="h-56 w-full">
             {data?.timeline && data.timeline.length > 0 ? (
               <ResponsiveContainer width="100%" height="100%">
                 <BarChart data={data.timeline}>
-                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#334155" />
-                  <XAxis dataKey="date" tick={{ fontSize: 10 }} />
-                  <YAxis tick={{ fontSize: 10 }} allowDecimals={false} />
+                  <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#374151" opacity={0.3} />
+                  <XAxis dataKey="date" tick={{ fontSize: 10, fill: '#94a3b8' }} />
+                  <YAxis tick={{ fontSize: 10, fill: '#94a3b8' }} allowDecimals={false} />
                   <Tooltip />
-                  <Bar dataKey="spam" name="Spam" fill="#f43f5e" radius={[4, 4, 0, 0]} />
+                  <Bar dataKey="spam" name="Spam" fill="#ef4444" radius={[4, 4, 0, 0]} />
                   <Bar dataKey="ham" name="Ham" fill="#10b981" radius={[4, 4, 0, 0]} />
                 </BarChart>
               </ResponsiveContainer>
@@ -324,7 +321,7 @@ export const Dashboard: React.FC = () => {
               </div>
             )}
           </div>
-          <div className="pt-2 border-t border-slate-100 dark:border-slate-800 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
+          <div className="pt-2 border-t border-slate-100 dark:border-slate-800/80 flex items-center justify-between text-xs text-slate-500 dark:text-slate-400">
             <span>Aggregated by Date</span>
             <span className="text-indigo-600 dark:text-indigo-400 font-medium">Daily Inflow</span>
           </div>
@@ -334,24 +331,24 @@ export const Dashboard: React.FC = () => {
       {/* Top Recurring Keywords & Recent Activity Row */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Top Keywords */}
-        <div className="lg:col-span-1 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-xs transition-colors">
+        <div className="lg:col-span-1 bg-white dark:bg-[#111827] rounded-2xl border border-slate-200 dark:border-slate-800/80 p-5 shadow-xs transition-colors">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wide">
-              Top Spam Keyword Triggers
+            <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
+              Top Spam Keywords
             </h2>
-            <span className="text-xs text-slate-400 dark:text-slate-500 font-mono">$sortByCount</span>
+            <span className="text-xs text-slate-400 font-mono">$sortByCount</span>
           </div>
           <p className="text-xs text-slate-500 dark:text-slate-400 mb-3">
-            Extracted vocabulary terms with highest frequency in classified spam messages.
+            High frequency vocabulary terms in classified spam.
           </p>
           <div className="flex flex-wrap gap-2">
             {data?.top_keywords && data.top_keywords.length > 0 ? (
               data.top_keywords.map((kw, i) => (
                 <span
                   key={i}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-700/80 hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors"
                 >
-                  <span className="font-mono text-purple-700 dark:text-purple-300 font-semibold">{kw.keyword}</span>
+                  <span className="font-mono text-indigo-600 dark:text-indigo-400 font-semibold">{kw.keyword}</span>
                   <span className="px-1.5 py-0.2 rounded-full bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 text-[10px]">
                     {kw.frequency}
                   </span>
@@ -364,9 +361,9 @@ export const Dashboard: React.FC = () => {
         </div>
 
         {/* Recent Analyzed Stream */}
-        <div className="lg:col-span-2 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200/80 dark:border-slate-800 p-6 shadow-xs transition-colors">
+        <div className="lg:col-span-2 bg-white dark:bg-[#111827] rounded-2xl border border-slate-200 dark:border-slate-800/80 p-5 shadow-xs transition-colors">
           <div className="flex items-center justify-between mb-3">
-            <h2 className="text-sm font-bold text-slate-800 dark:text-slate-100 uppercase tracking-wide">
+            <h2 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wide">
               Recent Message Stream
             </h2>
             <button
@@ -378,24 +375,24 @@ export const Dashboard: React.FC = () => {
             </button>
           </div>
 
-          <div className="divide-y divide-slate-100 dark:divide-slate-800">
+          <div className="divide-y divide-slate-100 dark:divide-slate-800/80">
             {data?.recent_messages && data.recent_messages.length > 0 ? (
               data.recent_messages.map((msg) => (
                 <div
                   key={msg.id}
                   onClick={() => setSelectedMessage(msg)}
-                  className="py-3 flex items-center justify-between gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/60 px-2 rounded-lg transition-colors cursor-pointer"
+                  className="py-3 flex items-center justify-between gap-4 hover:bg-slate-50 dark:hover:bg-slate-800/50 px-2 rounded-xl transition-colors cursor-pointer"
                 >
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">
                         {msg.sender || 'Unknown Sender'}
                       </span>
-                      <span className="text-[10px] text-slate-400 dark:text-slate-500">
+                      <span className="text-[10px] text-slate-400">
                         {new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
                       </span>
                     </div>
-                    <p className="text-xs text-slate-600 dark:text-slate-300 truncate">{msg.text}</p>
+                    <p className="text-xs text-slate-600 dark:text-slate-400 truncate">{msg.text}</p>
                   </div>
                   <div className="flex items-center gap-2 shrink-0">
                     <Badge type="prediction" value={msg.prediction} confidence={msg.confidence} />
@@ -405,7 +402,7 @@ export const Dashboard: React.FC = () => {
               ))
             ) : (
               <div className="py-8 text-center text-xs text-slate-400">
-                No recent messages found. Use the scanner above or click "Seed Demo Data".
+                No recent messages found. Use the scanner above or click "Seed Demo".
               </div>
             )}
           </div>
