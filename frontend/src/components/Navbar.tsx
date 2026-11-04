@@ -50,7 +50,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRefreshData }) => {
   const isConnected = health?.database?.connected;
 
   return (
-    <header className="h-16 w-full bg-white dark:bg-[#111827] border-b border-slate-200 dark:border-slate-800/80 px-4 sm:px-6 flex items-center justify-between shrink-0 select-none z-30 transition-colors">
+    <header className="h-16 w-full bg-white dark:bg-[#09090b] border-b border-slate-200 dark:border-zinc-800/80 px-4 sm:px-6 flex items-center justify-between shrink-0 select-none z-30 transition-colors">
       {/* Brand & Unique Logo */}
       <div className="flex items-center gap-3">
         <Link to="/dashboard" className="flex items-center gap-3 group cursor-pointer">
@@ -60,11 +60,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onRefreshData }) => {
               <span className="font-bold text-base sm:text-lg text-slate-900 dark:text-white tracking-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
                 SpamSentinel AI
               </span>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/80 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/80">
+              <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800/60">
                 CSE 494
               </span>
             </div>
-            <p className="text-[11px] text-slate-500 dark:text-slate-400 hidden md:block leading-tight">
+            <p className="text-[11px] text-slate-500 dark:text-zinc-400 hidden md:block leading-tight">
               Intelligent SMS &amp; Email Spam Detection &amp; Archival on MongoDB
             </p>
           </div>
@@ -74,14 +74,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onRefreshData }) => {
       {/* Right Controls & Telemetry */}
       <div className="flex items-center gap-2.5 sm:gap-3">
         {/* MongoDB Status */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900">
           <Database className={`w-3.5 h-3.5 ${isConnected ? 'text-emerald-500' : 'text-rose-500'}`} />
-          <span className="text-slate-600 dark:text-slate-300 font-medium hidden sm:inline">MongoDB</span>
+          <span className="text-slate-600 dark:text-zinc-300 font-medium hidden sm:inline">MongoDB</span>
           <span className={`w-2 h-2 rounded-full ${isConnected ? 'bg-emerald-500' : 'bg-rose-500'}`} />
         </div>
 
         {/* Model Status */}
-        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300">
+        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-lg text-xs border border-slate-200 dark:border-zinc-800 bg-slate-50 dark:bg-zinc-900 text-slate-700 dark:text-zinc-300">
           <Cpu className="w-3.5 h-3.5 text-indigo-500" />
           <span className="font-medium">Naive Bayes:</span>
           <span className="font-mono text-indigo-600 dark:text-indigo-400 font-semibold">
@@ -92,17 +92,17 @@ export const Navbar: React.FC<NavbarProps> = ({ onRefreshData }) => {
         {/* Landing Shortcut */}
         <Link
           to="/landing"
-          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/60 transition-colors"
+          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-slate-50 dark:bg-zinc-900 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 transition-colors"
           title="Open Landing Page"
         >
           <span>Landing</span>
-          <ExternalLink className="w-3 h-3 text-slate-400" />
+          <ExternalLink className="w-3 h-3 text-slate-400 dark:text-zinc-500" />
         </Link>
 
         {/* Theme Switcher Button */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-lg text-slate-600 dark:text-slate-300 bg-slate-50 dark:bg-slate-800/60 hover:bg-slate-100 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/60 transition-colors cursor-pointer"
+          className="p-2 rounded-lg text-slate-600 dark:text-zinc-300 bg-slate-50 dark:bg-zinc-900 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 transition-colors cursor-pointer"
           title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
           aria-label="Toggle theme"
         >

@@ -49,3 +49,4 @@ export const SentinelLogo: React.FC<LogoProps> = ({ className = 'w-9 h-9', size 
     </div>
   );
 };
+

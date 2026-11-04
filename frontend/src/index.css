@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-800 dark:bg-[#0b0f19] dark:text-slate-100 antialiased font-sans transition-colors duration-200;
+    @apply bg-slate-50 text-slate-800 dark:bg-[#000000] dark:text-zinc-100 antialiased font-sans transition-colors duration-150;
     margin: 0;
     padding: 0;
     min-height: 100vh;
@@ -14,6 +14,96 @@
     width: 100%;
     min-height: 100vh;
   }
+}
+
+/* =========================================================
+   GLOBAL DARK MODE THEME: PURE OLED BLACK & ZINC PALETTE
+   Automatically ensures all internal panels, cards, tables,
+   and inputs turn true black (#09090b or #000000) instead of
+   staying bright white when dark mode is enabled.
+========================================================= */
+
+.dark body {
+  background-color: #000000 !important;
+  color: #f4f4f5 !important;
+}
+
+/* Background overrides in dark mode */
+.dark .bg-white {
+  background-color: #09090b !important;
+  border-color: #27272a !important;
+}
+
+.dark .bg-slate-50,
+.dark .bg-slate-50\/80 {
+  background-color: #121215 !important;
+}
+
+.dark .bg-slate-100 {
+  background-color: #18181b !important;
+}
+
+/* Border overrides */
+.dark .border-slate-200,
+.dark .border-slate-100,
+.dark .border-slate-200\/80 {
+  border-color: #27272a !important;
+}
+
+.dark .divide-slate-100 > * + * {
+  border-color: #27272a !important;
+}
+
+.dark .divide-slate-200 > * + * {
+  border-color: #27272a !important;
+}
+
+/* Typography overrides in dark mode */
+.dark .text-slate-900,
+.dark .text-slate-800 {
+  color: #f4f4f5 !important;
+}
+
+.dark .text-slate-700 {
+  color: #e4e4e7 !important;
+}
+
+.dark .text-slate-600,
+.dark .text-slate-500 {
+  color: #a1a1aa !important;
+}
+
+.dark .text-slate-400 {
+  color: #71717a !important;
+}
+
+/* Table Hover */
+.dark tr:hover {
+  background-color: #18181b !important;
+}
+
+/* Form Inputs & Selects in Dark Mode */
+.dark input[type="text"],
+.dark input[type="password"],
+.dark input[type="number"],
+.dark textarea,
+.dark select {
+  background-color: #121215 !important;
+  border-color: #27272a !important;
+  color: #f4f4f5 !important;
+}
+
+.dark input::placeholder,
+.dark textarea::placeholder {
+  color: #71717a !important;
+}
+
+/* Hover surfaces */
+.dark .hover\:bg-slate-50:hover {
+  background-color: #18181b !important;
+}
+.dark .hover\:bg-slate-100:hover {
+  background-color: #27272a !important;
 }
 
 /* Custom scrollbars */
@@ -29,11 +119,11 @@
   border-radius: 9999px;
 }
 .dark ::-webkit-scrollbar-thumb {
-  background: #334155;
+  background: #27272a;
 }
 ::-webkit-scrollbar-thumb:hover {
   background: #94a3b8;
 }
 .dark ::-webkit-scrollbar-thumb:hover {
-  background: #475569;
+  background: #3f3f46;
 }
