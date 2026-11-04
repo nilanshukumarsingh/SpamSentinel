@@ -73,7 +73,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRefreshData }) => {
       {/* Right Controls & Telemetry */}
       <div className="flex items-center gap-2.5 sm:gap-3">
         {/* MongoDB Status Indicator */}
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs border border-slate-200 dark:border-zinc-800 bg-slate-50/80 dark:bg-zinc-900/80 hover:border-[#00BCD4]/40 transition-all duration-200">
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs border border-slate-200 dark:border-zinc-800 bg-slate-50/80 dark:bg-black hover:border-[#00BCD4]/40 transition-all duration-200">
           <Database className={`w-3.5 h-3.5 ${isConnected ? 'text-emerald-500' : 'text-rose-500'}`} />
           <span className="text-slate-600 dark:text-zinc-300 font-medium hidden sm:inline">MongoDB</span>
           <span className="relative flex h-2 w-2">
@@ -85,7 +85,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRefreshData }) => {
         </div>
 
         {/* Model Status */}
-        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs border border-slate-200 dark:border-zinc-800 bg-slate-50/80 dark:bg-zinc-900/80 text-slate-700 dark:text-zinc-300 hover:border-[#00BCD4]/40 transition-all duration-200">
+        <div className="hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs border border-slate-200 dark:border-zinc-800 bg-slate-50/80 dark:bg-black text-slate-700 dark:text-zinc-300 hover:border-[#00BCD4]/40 transition-all duration-200">
           <Cpu className="w-3.5 h-3.5 text-[#00BCD4] animate-pulse" />
           <span className="font-medium">Naive Bayes:</span>
           <span className="font-mono text-[#00BCD4] font-semibold">
@@ -96,7 +96,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRefreshData }) => {
         {/* Landing Shortcut */}
         <Link
           to="/landing"
-          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-slate-50/80 dark:bg-zinc-900/80 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 hover:border-[#00BCD4]/40 transition-all duration-200 hover:scale-105 active:scale-95 group"
+          className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-slate-700 dark:text-zinc-300 bg-slate-50/80 dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-950 border border-slate-200 dark:border-zinc-800 hover:border-[#00BCD4]/40 transition-all duration-200 hover:scale-105 active:scale-95 group"
           title="Open Landing Page"
         >
           <span>Landing</span>
@@ -106,7 +106,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onRefreshData }) => {
         {/* Dynamic Animated Theme Switcher Button */}
         <button
           onClick={toggleTheme}
-          className="p-2 rounded-xl text-slate-600 dark:text-zinc-300 bg-slate-50/80 dark:bg-zinc-900/80 hover:bg-slate-100 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 hover:border-[#00BCD4]/40 transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95 group"
+          className="p-2 rounded-xl text-slate-600 dark:text-zinc-300 bg-slate-50/80 dark:bg-black hover:bg-slate-100 dark:hover:bg-zinc-950 border border-slate-200 dark:border-zinc-800 hover:border-[#00BCD4]/40 transition-all duration-200 cursor-pointer hover:scale-105 active:scale-95 group"
           title={`Switch to ${theme === 'dark' ? 'Light' : 'Dark'} mode`}
           aria-label="Toggle theme"
         >

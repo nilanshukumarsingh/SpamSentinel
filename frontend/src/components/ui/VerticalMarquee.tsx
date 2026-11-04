@@ -202,7 +202,7 @@ function StarRow({ rating }: { rating: number }) {
 
 function Card({ t }: { t: Testimonial }) {
   return (
-    <figure className="group/card relative rounded-2xl border border-slate-200/80 dark:border-zinc-800 bg-white/80 dark:bg-[#09090b]/80 p-5 shadow-xs backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-[#00BCD4]/50 hover:shadow-md">
+    <figure className="group/card relative rounded-2xl border border-slate-200/80 dark:border-zinc-800 bg-white/80 dark:bg-black p-5 shadow-xs backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-[#00BCD4]/50 hover:shadow-md">
       <div className="flex items-start justify-between gap-3">
         <StarRow rating={t.rating} />
         <svg
@@ -356,7 +356,7 @@ export const MqxVertical: React.FC = () => {
                   onClick={() => setPlaying((p) => !p)}
                   aria-pressed={!playing}
                   aria-label={playing ? "Pause scrolling reviews" : "Play scrolling reviews"}
-                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 px-4 py-2 text-xs font-bold text-slate-700 dark:text-zinc-200 transition hover:border-[#00BCD4] hover:text-[#00BCD4] focus-visible:outline-none cursor-pointer shadow-xs"
+                  className="inline-flex items-center gap-2 rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-black px-4 py-2 text-xs font-bold text-slate-700 dark:text-zinc-200 transition hover:border-[#00BCD4] hover:text-[#00BCD4] focus-visible:outline-none cursor-pointer shadow-xs"
                 >
                   {playing ? (
                     <svg viewBox="0 0 20 20" className="h-4 w-4 fill-current" aria-hidden="true">
@@ -374,7 +374,7 @@ export const MqxVertical: React.FC = () => {
                 <div
                   role="radiogroup"
                   aria-label="Scroll speed"
-                  className="inline-flex items-center rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 p-1 shadow-xs"
+                  className="inline-flex items-center rounded-xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-black p-1 shadow-xs"
                 >
                   {SPEEDS.map((s, i) => {
                     const active = s.id === speed;

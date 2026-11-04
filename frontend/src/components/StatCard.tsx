@@ -50,10 +50,10 @@ export const StatCard: React.FC<StatCardProps> = ({
       badge: 'bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300'
     },
     slate: {
-      bg: 'bg-slate-100 dark:bg-zinc-900',
+      bg: 'bg-slate-100 dark:bg-black',
       text: 'text-slate-600 dark:text-zinc-300',
       border: 'border-slate-200 dark:border-zinc-800',
-      badge: 'bg-slate-200 dark:bg-zinc-800 text-slate-700 dark:text-zinc-300'
+      badge: 'bg-slate-200 dark:bg-black border dark:border-zinc-800 text-slate-700 dark:text-zinc-300'
     }
   }[colorScheme];
 

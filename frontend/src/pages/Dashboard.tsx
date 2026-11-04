@@ -121,7 +121,7 @@ export const Dashboard: React.FC = () => {
           </button>
           <button
             onClick={loadData}
-            className="p-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-zinc-900 dark:hover:bg-zinc-800 border border-slate-200 dark:border-zinc-800 hover:border-[#00BCD4]/40 text-slate-600 dark:text-zinc-300 rounded-xl transition-all hover:scale-105 active:scale-95 cursor-pointer group"
+            className="p-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-black dark:hover:bg-zinc-950 border border-slate-200 dark:border-zinc-800 hover:border-[#00BCD4]/40 text-slate-600 dark:text-zinc-300 rounded-xl transition-all hover:scale-105 active:scale-95 cursor-pointer group"
             title="Refresh Analytics"
           >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : 'group-hover:rotate-180 transition-transform duration-500'}`} />
@@ -184,14 +184,14 @@ export const Dashboard: React.FC = () => {
                 placeholder="Sender ID / Phone / Email (Optional)"
                 value={quickSender}
                 onChange={(e) => setQuickSender(e.target.value)}
-                className="w-full text-xs px-3.5 py-2.5 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-800 dark:text-zinc-100 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#00BCD4]/30 focus:border-[#00BCD4] transition-colors placeholder:text-zinc-500"
+                className="w-full text-xs px-3.5 py-2.5 bg-slate-50 dark:bg-[#070709] border border-slate-200 dark:border-zinc-800 text-slate-800 dark:text-zinc-100 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#00BCD4]/30 focus:border-[#00BCD4] transition-colors placeholder:text-zinc-500"
               />
               <textarea
                 rows={3}
                 placeholder="Paste message text to test (e.g., You won £1,000 cash prize!)..."
                 value={quickText}
                 onChange={(e) => setQuickText(e.target.value)}
-                className="w-full text-xs p-3.5 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-800 dark:text-zinc-100 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#00BCD4]/30 focus:border-[#00BCD4] resize-none font-sans transition-colors placeholder:text-zinc-500"
+                className="w-full text-xs p-3.5 bg-slate-50 dark:bg-[#070709] border border-slate-200 dark:border-zinc-800 text-slate-800 dark:text-zinc-100 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-[#00BCD4]/30 focus:border-[#00BCD4] resize-none font-sans transition-colors placeholder:text-zinc-500"
               />
               {quickError && (
                 <div className="p-2.5 rounded-lg bg-rose-50 dark:bg-rose-950/40 border border-rose-200 dark:border-rose-900/60 text-rose-700 dark:text-rose-300 text-xs font-medium">
@@ -351,10 +351,10 @@ export const Dashboard: React.FC = () => {
               data.top_keywords.map((kw, i) => (
                 <span
                   key={i}
-                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-zinc-900 text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-800 transition-colors"
+                  className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-medium bg-slate-100 dark:bg-black text-slate-700 dark:text-zinc-300 border border-slate-200 dark:border-zinc-800 hover:bg-slate-200 dark:hover:bg-zinc-950 transition-colors"
                 >
                   <span className="font-mono text-indigo-600 dark:text-indigo-400 font-semibold">{kw.keyword}</span>
-                  <span className="px-1.5 py-0.2 rounded-full bg-slate-200 dark:bg-zinc-800 text-slate-600 dark:text-zinc-400 text-[10px]">
+                  <span className="px-1.5 py-0.2 rounded-full bg-slate-200 dark:bg-zinc-900 border dark:border-zinc-800 text-slate-600 dark:text-zinc-400 text-[10px]">
                     {kw.frequency}
                   </span>
                 </span>

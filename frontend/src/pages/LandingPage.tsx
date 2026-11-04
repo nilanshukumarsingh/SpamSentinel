@@ -92,7 +92,7 @@ export const LandingPage: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 dark:bg-[#000000] text-slate-800 dark:text-zinc-100 flex flex-col font-sans selection:bg-[#00BCD4] selection:text-black antialiased relative overflow-x-hidden transition-colors duration-200">
+    <div className="min-h-screen bg-slate-50 dark:!bg-black text-slate-800 dark:text-zinc-100 flex flex-col font-sans selection:bg-[#00BCD4] selection:text-black antialiased relative overflow-x-hidden transition-colors duration-200">
       <style>{`
         @keyframes tsh-shine {
           0% { background-position: 150% center; }
@@ -156,7 +156,7 @@ export const LandingPage: React.FC = () => {
               onClick={toggleTheme}
               aria-label="Toggle Theme Mode"
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              className="p-2.5 rounded-xl border border-slate-300 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 text-slate-800 dark:text-zinc-100 hover:text-[#00BCD4] dark:hover:text-[#00BCD4] hover:border-[#00BCD4]/50 transition-all duration-300 cursor-pointer shadow-xs hover:scale-105 active:scale-95 group"
+              className="p-2.5 rounded-xl border border-slate-300 dark:border-zinc-800 bg-white/90 dark:bg-black text-slate-800 dark:text-zinc-100 hover:text-[#00BCD4] dark:hover:text-[#00BCD4] hover:border-[#00BCD4]/50 transition-all duration-300 cursor-pointer shadow-xs hover:scale-105 active:scale-95 group"
             >
               {theme === 'dark' ? (
                 <Sun className="w-4 h-4 text-amber-400 group-hover:rotate-90 transition-transform duration-500" />
@@ -177,7 +177,7 @@ export const LandingPage: React.FC = () => {
             {/* Hamburger Button for Takeover Navigation (Tablet & Mobile View Only, Hidden on Desktop) */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 text-slate-800 dark:text-white hover:text-[#00BCD4] transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95"
+              className="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-black border border-slate-200 dark:border-zinc-800 text-slate-800 dark:text-white hover:text-[#00BCD4] transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95"
               aria-label="Toggle Menu"
             >
               {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -287,7 +287,7 @@ export const LandingPage: React.FC = () => {
             material={theme === 'dark' ? 'gloss' : 'satin'}
             colors={
               theme === 'dark'
-                ? ['#00BCD4', '#6366F1', '#38BDF8', '#A855F7', '#FFFFFF', '#0EA5E9', '#1E293B']
+                ? ['#00BCD4', '#00E5FF', '#38BDF8', '#6366F1', '#818CF8', '#A855F7', '#FFFFFF']
                 : ['#00BCD4', '#0284C7', '#4F46E5', '#6366F1', '#38BDF8', '#94A3B8', '#E0E7FF']
             }
             lightColor={theme === 'dark' ? '#38BDF8' : '#FFFFFF'}
@@ -298,11 +298,18 @@ export const LandingPage: React.FC = () => {
           />
         </div>
 
-        {/* Soft Radial Depth Vignette to guarantee crystalline legibility */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_80%_65%_at_50%_50%,rgba(248,250,252,0.45)_0%,rgba(241,245,249,0.92)_100%)] dark:bg-[radial-gradient(ellipse_80%_65%_at_50%_50%,rgba(5,5,7,0.45)_0%,rgba(0,0,0,0.94)_100%)]"
-        />
+        {/* Seamless Depth Vignette: Clean Fade at Bottom Only (No Muddy Grey Center Overlay) */}
+        {theme === 'light' ? (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-transparent via-slate-50/50 to-slate-50"
+          />
+        ) : (
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 z-[1] bg-gradient-to-b from-transparent via-transparent to-black"
+          />
+        )}
 
         {/* Hero Overlay Content */}
         <div className="relative z-10 pointer-events-none max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-16 md:py-24 text-center flex flex-col items-center">
@@ -311,7 +318,7 @@ export const LandingPage: React.FC = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="pointer-events-auto inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-200 dark:border-zinc-800 bg-white/80 dark:bg-zinc-900/70 text-slate-700 dark:text-zinc-300 text-xs font-medium mb-6 backdrop-blur-md shadow-xs"
+            className="pointer-events-auto inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-200 dark:border-zinc-800 bg-white/90 dark:bg-black text-slate-700 dark:text-zinc-200 text-xs font-medium mb-6 shadow-xs"
           >
             <Sparkles className="w-3.5 h-3.5 text-[#00BCD4]" />
             <span>Multinomial Naive Bayes + TF-IDF</span>
@@ -362,7 +369,7 @@ export const LandingPage: React.FC = () => {
 
             <Link
               to="/detector"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white/90 dark:bg-zinc-900/90 border border-slate-200 dark:border-zinc-800 text-slate-800 dark:text-zinc-200 font-semibold text-xs uppercase tracking-wider hover:bg-slate-100 dark:hover:bg-zinc-800 hover:text-black dark:hover:text-white transition-all cursor-pointer shadow-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl bg-white dark:bg-black border border-slate-200 dark:border-zinc-800 text-slate-800 dark:text-zinc-200 font-semibold text-xs uppercase tracking-wider hover:bg-slate-100 dark:hover:bg-zinc-950 hover:text-black dark:hover:text-[#00BCD4] dark:hover:border-[#00BCD4]/60 transition-all cursor-pointer shadow-sm"
             >
               <ShieldAlert className="w-4 h-4 text-[#00BCD4]" />
               <span>Test Real-Time Detector</span>
@@ -371,21 +378,21 @@ export const LandingPage: React.FC = () => {
 
           {/* Quick Highlights Grid */}
           <div className="mt-12 grid grid-cols-2 sm:grid-cols-4 gap-3.5 max-w-3xl mx-auto w-full pointer-events-auto">
-            <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/40 border border-slate-200/90 dark:border-zinc-800/70 text-left backdrop-blur-md shadow-xs">
+            <div className="p-4 rounded-xl bg-white/80 dark:bg-black border border-slate-200/90 dark:border-zinc-800 hover:dark:border-[#00BCD4]/60 text-left shadow-xs transition-all duration-200 hover:scale-[1.02]">
               <div className="text-2xl font-bold text-slate-900 dark:text-white font-display">98.74%</div>
-              <div className="text-[11px] text-slate-500 dark:text-zinc-500 mt-0.5 uppercase tracking-wider font-semibold">Test Accuracy</div>
+              <div className="text-[11px] text-slate-500 dark:text-zinc-400 mt-0.5 uppercase tracking-wider font-semibold">Test Accuracy</div>
             </div>
-            <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/40 border border-slate-200/90 dark:border-zinc-800/70 text-left backdrop-blur-md shadow-xs">
+            <div className="p-4 rounded-xl bg-white/80 dark:bg-black border border-slate-200/90 dark:border-zinc-800 hover:dark:border-[#00BCD4]/60 text-left shadow-xs transition-all duration-200 hover:scale-[1.02]">
               <div className="text-2xl font-bold text-[#00BCD4] font-display">&lt; 15 ms</div>
-              <div className="text-[11px] text-slate-500 dark:text-zinc-500 mt-0.5 uppercase tracking-wider font-semibold">Latency</div>
+              <div className="text-[11px] text-slate-500 dark:text-zinc-400 mt-0.5 uppercase tracking-wider font-semibold">Latency</div>
             </div>
-            <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/40 border border-slate-200/90 dark:border-zinc-800/70 text-left backdrop-blur-md shadow-xs">
+            <div className="p-4 rounded-xl bg-white/80 dark:bg-black border border-slate-200/90 dark:border-zinc-800 hover:dark:border-[#00BCD4]/60 text-left shadow-xs transition-all duration-200 hover:scale-[1.02]">
               <div className="text-2xl font-bold text-slate-900 dark:text-white font-display">5,574</div>
-              <div className="text-[11px] text-slate-500 dark:text-zinc-500 mt-0.5 uppercase tracking-wider font-semibold">UCI Dataset</div>
+              <div className="text-[11px] text-slate-500 dark:text-zinc-400 mt-0.5 uppercase tracking-wider font-semibold">UCI Dataset</div>
             </div>
-            <div className="p-4 rounded-xl bg-white/70 dark:bg-zinc-900/40 border border-slate-200/90 dark:border-zinc-800/70 text-left backdrop-blur-md shadow-xs">
+            <div className="p-4 rounded-xl bg-white/80 dark:bg-black border border-slate-200/90 dark:border-zinc-800 hover:dark:border-[#00BCD4]/60 text-left shadow-xs transition-all duration-200 hover:scale-[1.02]">
               <div className="text-2xl font-bold text-[#00BCD4] font-display">PyMongo</div>
-              <div className="text-[11px] text-slate-500 dark:text-zinc-500 mt-0.5 uppercase tracking-wider font-semibold">Pure Driver</div>
+              <div className="text-[11px] text-slate-500 dark:text-zinc-400 mt-0.5 uppercase tracking-wider font-semibold">Pure Driver</div>
             </div>
           </div>
         </div>
@@ -393,7 +400,7 @@ export const LandingPage: React.FC = () => {
 
       {/* Interactive Live Playground Section */}
       <section id="demo" className="relative z-10 py-16 px-4 sm:px-6 lg:px-8 max-w-4xl mx-auto">
-        <div className="rounded-2xl border border-slate-200 dark:border-zinc-800/80 bg-white/90 dark:bg-zinc-900/50 p-6 sm:p-8 shadow-xl backdrop-blur-sm transition-colors duration-200">
+        <div className="rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-black p-6 sm:p-8 shadow-xl transition-colors duration-200">
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-6 gap-3">
             <div>
               <div className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#00BCD4] uppercase tracking-widest mb-1.5">
@@ -436,7 +443,7 @@ export const LandingPage: React.FC = () => {
                 onChange={(e) => setQuickInput(e.target.value)}
                 placeholder="Enter SMS or email text here to test the live ML classifier..."
                 rows={3}
-                className="w-full rounded-xl bg-slate-50 dark:bg-zinc-950 border border-slate-200 dark:border-zinc-800/80 p-3.5 text-slate-900 dark:text-zinc-100 placeholder:text-slate-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-[#00BCD4] text-xs font-sans resize-none transition-colors"
+                className="w-full rounded-xl bg-slate-50 dark:bg-[#070709] border border-slate-200 dark:border-zinc-800 p-3.5 text-slate-900 dark:text-zinc-100 placeholder:text-slate-400 dark:placeholder:text-zinc-600 focus:outline-none focus:ring-1 focus:ring-[#00BCD4] text-xs font-sans resize-none transition-colors"
               />
               <button
                 type="button"
@@ -497,7 +504,7 @@ export const LandingPage: React.FC = () => {
                       sampleResult.tokens.map((tok, i) => (
                         <span
                           key={i}
-                          className="px-2 py-0.5 rounded-md bg-white dark:bg-zinc-900 text-[#00BCD4] border border-slate-200 dark:border-zinc-800 font-mono text-xs shadow-2xs"
+                          className="px-2 py-0.5 rounded-md bg-white dark:bg-black text-[#00BCD4] border border-slate-200 dark:border-zinc-800 font-mono text-xs shadow-2xs"
                         >
                           #{tok}
                         </span>
@@ -529,8 +536,8 @@ export const LandingPage: React.FC = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          <div className="p-6 rounded-2xl bg-white/80 dark:bg-zinc-900/40 border border-slate-200 dark:border-zinc-800/80 shadow-xs transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-cyan-100 dark:bg-cyan-950/60 border border-cyan-200 dark:border-cyan-800/40 flex items-center justify-center text-[#00BCD4] mb-5">
+          <div className="p-6 rounded-2xl bg-white/80 dark:bg-black border border-slate-200 dark:border-zinc-800/90 hover:dark:border-[#00BCD4]/50 shadow-xs transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-cyan-100 dark:bg-[#00BCD4]/10 border border-cyan-200 dark:border-[#00BCD4]/30 flex items-center justify-center text-[#00BCD4] mb-5">
               <Cpu className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1.5 font-display">Multinomial Naive Bayes</h3>
@@ -543,8 +550,8 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white/80 dark:bg-zinc-900/40 border border-slate-200 dark:border-zinc-800/80 shadow-xs transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-cyan-100 dark:bg-cyan-950/60 border border-cyan-200 dark:border-cyan-800/40 flex items-center justify-center text-[#00BCD4] mb-5">
+          <div className="p-6 rounded-2xl bg-white/80 dark:bg-black border border-slate-200 dark:border-zinc-800/90 hover:dark:border-[#00BCD4]/50 shadow-xs transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-cyan-100 dark:bg-[#00BCD4]/10 border border-cyan-200 dark:border-[#00BCD4]/30 flex items-center justify-center text-[#00BCD4] mb-5">
               <Database className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1.5 font-display">Native PyMongo Driver</h3>
@@ -557,8 +564,8 @@ export const LandingPage: React.FC = () => {
             </div>
           </div>
 
-          <div className="p-6 rounded-2xl bg-white/80 dark:bg-zinc-900/40 border border-slate-200 dark:border-zinc-800/80 shadow-xs transition-colors">
-            <div className="w-10 h-10 rounded-xl bg-cyan-100 dark:bg-cyan-950/60 border border-cyan-200 dark:border-cyan-800/40 flex items-center justify-center text-[#00BCD4] mb-5">
+          <div className="p-6 rounded-2xl bg-white/80 dark:bg-black border border-slate-200 dark:border-zinc-800/90 hover:dark:border-[#00BCD4]/50 shadow-xs transition-colors">
+            <div className="w-10 h-10 rounded-xl bg-cyan-100 dark:bg-[#00BCD4]/10 border border-cyan-200 dark:border-[#00BCD4]/30 flex items-center justify-center text-[#00BCD4] mb-5">
               <BarChart3 className="w-5 h-5" />
             </div>
             <h3 className="text-base font-bold text-slate-900 dark:text-white mb-1.5 font-display">Real-Time Aggregations</h3>

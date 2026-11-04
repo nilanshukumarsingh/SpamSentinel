@@ -49,7 +49,7 @@ export const FooterDarkBrand: React.FC = () => {
                 target="_blank"
                 rel="noreferrer"
                 aria-label="GitHub Repository"
-                className="flex h-9 w-9 items-center justify-center rounded-xl bg-white dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 text-slate-700 dark:text-zinc-300 transition hover:bg-[#00BCD4] hover:text-black hover:border-[#00BCD4] shadow-xs"
+                className="flex h-9 w-9 items-center justify-center rounded-xl bg-white dark:bg-black border border-slate-200 dark:border-zinc-800 text-slate-700 dark:text-zinc-300 transition hover:bg-[#00BCD4] hover:text-black hover:border-[#00BCD4] shadow-xs"
               >
                 <svg viewBox="0 0 24 24" fill="currentColor" className="h-4 w-4" aria-hidden="true">
                   <path
