@@ -2,7 +2,16 @@
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+@theme {
+  --font-display: 'Space Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+
 @layer base {
+  html {
+    font-family: var(--font-sans);
+  }
   body {
     @apply bg-slate-50 text-slate-800 dark:bg-[#000000] dark:text-zinc-100 antialiased font-sans transition-colors duration-150;
     margin: 0;
@@ -18,9 +27,6 @@
 
 /* =========================================================
    GLOBAL DARK MODE THEME: PURE OLED BLACK & ZINC PALETTE
-   Automatically ensures all internal panels, cards, tables,
-   and inputs turn true black (#09090b or #000000) instead of
-   staying bright white when dark mode is enabled.
 ========================================================= */
 
 .dark body {

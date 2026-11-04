@@ -455,3 +455,4 @@ export const MqxVertical: React.FC = () => {
     </section>
   );
 };
+
