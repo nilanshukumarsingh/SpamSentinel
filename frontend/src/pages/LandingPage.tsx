@@ -136,7 +136,9 @@ export const LandingPage: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
           {/* Logo & Brand */}
           <Link to="/" className="flex items-center gap-3 group">
-            <SentinelLogo size={38} />
+            <div className="transition-transform duration-300 group-hover:scale-105">
+              <SentinelLogo size={38} />
+            </div>
             <div className="flex flex-col">
               <span className="font-bold text-lg tracking-tight text-slate-900 dark:text-white flex items-center gap-1.5 font-display">
                 SpamSentinel <span className="text-[#00BCD4]">AI.</span>
@@ -147,32 +149,19 @@ export const LandingPage: React.FC = () => {
             </div>
           </Link>
 
-          {/* Center Links */}
-          <nav className="hidden md:flex items-center gap-8 text-xs font-semibold tracking-wider uppercase text-slate-600 dark:text-zinc-300">
-            <a href="#space-hero" className="hover:text-[#00BCD4] transition-colors">Zero-G Space</a>
-            <a href="#demo" className="hover:text-[#00BCD4] transition-colors">Classifier</a>
-            <a href="#capabilities" className="hover:text-[#00BCD4] transition-colors">Capabilities</a>
-            <a href="#telemetry" className="hover:text-[#00BCD4] transition-colors">Telemetry</a>
-          </nav>
-
           {/* Right Action: Theme Switcher & Studio Launch */}
-          <div className="flex items-center gap-2.5">
-            {/* Dark / Light Space Mode Toggle Button */}
+          <div className="flex items-center gap-3">
+            {/* Dynamic Animated Sun/Moon Icon Theme Toggle (No Text Clutter) */}
             <button
               onClick={toggleTheme}
               aria-label="Toggle Theme Mode"
-              className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-300 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 text-slate-800 dark:text-zinc-100 hover:text-[#00BCD4] dark:hover:text-[#00BCD4] transition-all cursor-pointer shadow-xs font-semibold"
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              className="p-2.5 rounded-xl border border-slate-300 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 text-slate-800 dark:text-zinc-100 hover:text-[#00BCD4] dark:hover:text-[#00BCD4] hover:border-[#00BCD4]/50 transition-all duration-300 cursor-pointer shadow-xs hover:scale-105 active:scale-95 group"
             >
               {theme === 'dark' ? (
-                <>
-                  <Sun className="w-4 h-4 text-amber-400" />
-                  <span className="text-xs font-bold">Light Mode</span>
-                </>
+                <Sun className="w-4 h-4 text-amber-400 group-hover:rotate-90 transition-transform duration-500" />
               ) : (
-                <>
-                  <Moon className="w-4 h-4 text-[#00BCD4]" />
-                  <span className="text-xs font-bold">Dark Mode</span>
-                </>
+                <Moon className="w-4 h-4 text-[#00BCD4] group-hover:-rotate-45 transition-transform duration-500" />
               )}
             </button>
 
@@ -180,15 +169,15 @@ export const LandingPage: React.FC = () => {
               onClick={() => navigate('/dashboard')}
               shimmerColor="#00BCD4"
               borderRadius="12px"
-              className="hidden sm:inline-flex text-xs font-bold uppercase tracking-wider !px-4 !py-2.5 shadow-md cursor-pointer"
+              className="hidden sm:inline-flex text-xs font-bold uppercase tracking-wider !px-5 !py-2.5 shadow-md cursor-pointer hover:scale-105 active:scale-95 transition-all"
             >
               <span>Launch Studio →</span>
             </ShimmerButton>
 
-            {/* Hamburger Button for Takeover Navigation */}
+            {/* Hamburger Button for Takeover Navigation (Tablet & Mobile View Only, Hidden on Desktop) */}
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="p-2.5 rounded-xl bg-slate-100 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 text-slate-800 dark:text-white hover:text-[#00BCD4] transition-colors cursor-pointer shadow-xs"
+              className="md:hidden p-2.5 rounded-xl bg-slate-100 dark:bg-zinc-900/80 border border-slate-200 dark:border-zinc-800 text-slate-800 dark:text-white hover:text-[#00BCD4] transition-all cursor-pointer shadow-xs hover:scale-105 active:scale-95"
               aria-label="Toggle Menu"
             >
               {menuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -351,29 +340,10 @@ export const LandingPage: React.FC = () => {
             Sub-millisecond machine learning inference paired with document-oriented persistence. Ingest, tokenize, quarantine, and aggregate communications with native PyMongo operations.
           </p>
 
-          {/* Interactive Zero-G Physics Hint & Mode Switcher */}
-          <div className="mt-5 pointer-events-auto flex flex-wrap items-center justify-center gap-2.5">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00BCD4]/10 border border-[#00BCD4]/30 text-[#00BCD4] text-[11px] font-semibold">
-              <Orbit className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '8s' }} />
-              <span>Zero-G Space Physics • Hover to steer • Click to burst • Drag spheres</span>
-            </div>
-
-            <button
-              onClick={toggleTheme}
-              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-slate-300 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 text-slate-700 dark:text-zinc-300 hover:text-[#00BCD4] dark:hover:text-[#00BCD4] text-[11px] font-semibold transition-all cursor-pointer shadow-xs"
-            >
-              {theme === 'dark' ? (
-                <>
-                  <Sun className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Switch to Light Mode</span>
-                </>
-              ) : (
-                <>
-                  <Moon className="w-3.5 h-3.5 text-[#00BCD4]" />
-                  <span>Switch to Dark Mode</span>
-                </>
-              )}
-            </button>
+          {/* Interactive Zero-G Physics Hint Banner (Clean, No Clutter) */}
+          <div className="mt-5 pointer-events-auto inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#00BCD4]/10 border border-[#00BCD4]/30 text-[#00BCD4] text-xs font-semibold backdrop-blur-md shadow-xs">
+            <Orbit className="w-3.5 h-3.5 animate-spin text-[#00BCD4]" style={{ animationDuration: '6s' }} />
+            <span>Interactive Zero-G Ballpit • Hover to steer • Click to burst • Drag spheres</span>
           </div>
 
           {/* Hero Action Buttons */}
