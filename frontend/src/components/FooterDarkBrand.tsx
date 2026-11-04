@@ -33,7 +33,7 @@ export const FooterDarkBrand: React.FC = () => {
   ];
 
   return (
-    <section className="bg-slate-100 dark:bg-black px-6 py-16 md:py-24 border-t border-slate-200 dark:border-zinc-900 transition-colors duration-200">
+    <section className="bg-transparent px-6 py-16 md:py-24 transition-colors duration-200">
       <footer className="mx-auto max-w-6xl">
         <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
           <div className="col-span-2 sm:col-span-1">
@@ -91,7 +91,7 @@ export const FooterDarkBrand: React.FC = () => {
         </div>
 
         {/* Giant typography banner */}
-        <div className="mt-14 border-t border-slate-200 dark:border-zinc-900 pt-10">
+        <div className="mt-14 pt-10">
           <span
             aria-hidden="true"
             className="block bg-gradient-to-b from-slate-900 via-slate-500 to-slate-200 dark:from-zinc-200 dark:via-zinc-600 dark:to-zinc-900 bg-clip-text text-5xl font-black leading-none tracking-tighter text-transparent sm:text-7xl lg:text-[8rem] select-none"

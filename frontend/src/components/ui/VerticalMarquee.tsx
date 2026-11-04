@@ -202,7 +202,7 @@ function StarRow({ rating }: { rating: number }) {
 
 function Card({ t }: { t: Testimonial }) {
   return (
-    <figure className="group/card relative rounded-2xl border border-slate-200 dark:border-zinc-800 bg-white dark:bg-[#09090b] p-5 shadow-sm backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-[#00BCD4]/50 hover:shadow-md">
+    <figure className="group/card relative rounded-2xl border border-slate-200/80 dark:border-zinc-800 bg-white/80 dark:bg-[#09090b]/80 p-5 shadow-xs backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-[#00BCD4]/50 hover:shadow-md">
       <div className="flex items-start justify-between gap-3">
         <StarRow rating={t.rating} />
         <svg
@@ -282,7 +282,7 @@ export const MqxVertical: React.FC = () => {
 
   return (
     <section
-      className="mqxv-root relative w-full overflow-hidden bg-slate-50 dark:bg-black py-20 sm:py-28 transition-colors duration-200"
+      className="mqxv-root relative w-full overflow-hidden bg-transparent py-20 sm:py-28 transition-colors duration-200"
       aria-labelledby={`${regionId}-title`}
       data-mqxv-playing={rootPlaying ? "true" : "false"}
     >

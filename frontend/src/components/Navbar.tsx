@@ -57,11 +57,8 @@ export const Navbar: React.FC<NavbarProps> = ({ onRefreshData }) => {
           <SentinelLogo size={36} />
           <div className="flex flex-col">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-base sm:text-lg text-slate-900 dark:text-white tracking-tight group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors">
+              <span className="font-bold text-base sm:text-lg text-slate-900 dark:text-white tracking-tight group-hover:text-[#00BCD4] transition-colors">
                 SpamSentinel AI
-              </span>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-cyan-50 dark:bg-cyan-950/60 text-cyan-700 dark:text-[#00BCD4] border border-cyan-200 dark:border-cyan-800/60">
-                PRO v2.4
               </span>
             </div>
             <p className="text-[11px] text-slate-500 dark:text-zinc-400 hidden md:block leading-tight">

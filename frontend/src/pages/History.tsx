@@ -111,30 +111,30 @@ export const History: React.FC = () => {
       </div>
 
       {/* Filter and Search Bar */}
-      <div className="bg-white rounded-2xl border border-slate-200 p-4 shadow-xs space-y-4">
+      <div className="bg-white dark:bg-[#09090b] rounded-2xl border border-slate-200 dark:border-zinc-800 p-4 shadow-xs space-y-4 transition-colors">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
           {/* Search box */}
           <div className="relative md:col-span-1">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
+            <Search className="w-4 h-4 text-slate-400 dark:text-zinc-500 absolute left-3.5 top-1/2 -translate-y-1/2" />
             <input
               type="text"
               placeholder="Search by text content or sender..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full text-xs pl-10 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500"
+              className="w-full text-xs pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-800 dark:text-zinc-100 focus:outline-hidden focus:ring-2 focus:ring-[#00BCD4]/20 focus:border-[#00BCD4]"
             />
           </div>
 
           {/* Classification Filter */}
           <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text-slate-500 shrink-0">Prediction:</span>
+            <span className="text-xs font-medium text-slate-500 dark:text-zinc-400 shrink-0">Prediction:</span>
             <select
               value={predictionFilter}
               onChange={(e) => {
                 setPredictionFilter(e.target.value);
                 setPage(1);
               }}
-              className="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:ring-1 focus:ring-indigo-500"
+              className="w-full text-xs px-3 py-2.5 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-800 dark:text-zinc-100 focus:outline-hidden focus:ring-1 focus:ring-[#00BCD4]"
             >
               <option value="">All Predictions (Spam + Ham)</option>
               <option value="spam">Spam Only</option>
@@ -144,14 +144,14 @@ export const History: React.FC = () => {
 
           {/* Status Filter */}
           <div className="flex items-center gap-2">
-            <span className="text-xs font-medium text-slate-500 shrink-0">Review Status:</span>
+            <span className="text-xs font-medium text-slate-500 dark:text-zinc-400 shrink-0">Review Status:</span>
             <select
               value={statusFilter}
               onChange={(e) => {
                 setStatusFilter(e.target.value);
                 setPage(1);
               }}
-              className="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:outline-hidden focus:ring-1 focus:ring-indigo-500"
+              className="w-full text-xs px-3 py-2.5 bg-slate-50 dark:bg-zinc-900 border border-slate-200 dark:border-zinc-800 rounded-xl text-slate-800 dark:text-zinc-100 focus:outline-hidden focus:ring-1 focus:ring-[#00BCD4]"
             >
               <option value="">All Review Statuses</option>
               <option value="unreviewed">Unreviewed</option>
@@ -162,8 +162,8 @@ export const History: React.FC = () => {
         </div>
 
         {/* Quick Filter Tabs */}
-        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 text-xs">
-          <span className="text-slate-400 font-medium">Quick Preset:</span>
+        <div className="flex flex-wrap items-center gap-2 pt-2 border-t border-slate-100 dark:border-zinc-800 text-xs">
+          <span className="text-slate-400 dark:text-zinc-500 font-medium">Quick Preset:</span>
           <button
             onClick={() => {
               setPredictionFilter('');
@@ -172,7 +172,7 @@ export const History: React.FC = () => {
               setPage(1);
             }}
             className={`px-2.5 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
-              !predictionFilter && !statusFilter ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+              !predictionFilter && !statusFilter ? 'bg-[#00BCD4] text-black font-bold' : 'bg-slate-100 dark:bg-zinc-800 text-slate-600 dark:text-zinc-300 hover:bg-slate-200 dark:hover:bg-zinc-700'
             }`}
           >
             All Messages ({total})
@@ -184,7 +184,7 @@ export const History: React.FC = () => {
               setPage(1);
             }}
             className={`px-2.5 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
-              predictionFilter === 'spam' ? 'bg-rose-600 text-white' : 'bg-rose-50 text-rose-700 hover:bg-rose-100'
+              predictionFilter === 'spam' ? 'bg-rose-600 text-white font-bold' : 'bg-rose-50 dark:bg-rose-950/40 text-rose-700 dark:text-rose-300 hover:bg-rose-100 dark:hover:bg-rose-900/40'
             }`}
           >
             Spam Only
@@ -196,7 +196,7 @@ export const History: React.FC = () => {
               setPage(1);
             }}
             className={`px-2.5 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
-              predictionFilter === 'ham' ? 'bg-emerald-600 text-white' : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
+              predictionFilter === 'ham' ? 'bg-emerald-600 text-white font-bold' : 'bg-emerald-50 dark:bg-emerald-950/40 text-emerald-700 dark:text-emerald-300 hover:bg-emerald-100 dark:hover:bg-emerald-900/40'
             }`}
           >
             Legitimate Ham
@@ -208,7 +208,7 @@ export const History: React.FC = () => {
               setPage(1);
             }}
             className={`px-2.5 py-1 rounded-lg font-medium transition-colors cursor-pointer ${
-              statusFilter === 'whitelisted' ? 'bg-blue-600 text-white' : 'bg-blue-50 text-blue-700 hover:bg-blue-100'
+              statusFilter === 'whitelisted' ? 'bg-blue-600 text-white font-bold' : 'bg-blue-50 dark:bg-blue-950/40 text-blue-700 dark:text-blue-300 hover:bg-blue-100 dark:hover:bg-blue-900/40'
             }`}
           >
             Whitelisted
@@ -217,11 +217,11 @@ export const History: React.FC = () => {
       </div>
 
       {/* Messages Table */}
-      <div className="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+      <div className="bg-white dark:bg-[#09090b] rounded-2xl border border-slate-200 dark:border-zinc-800 shadow-xs overflow-hidden transition-colors">
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead>
-              <tr className="bg-slate-50/80 border-b border-slate-200 text-[11px] font-bold uppercase tracking-wider text-slate-500">
+              <tr className="bg-slate-50/80 dark:bg-zinc-900/80 border-b border-slate-200 dark:border-zinc-800 text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-zinc-400">
                 <th className="py-3.5 px-4">Message Snippet</th>
                 <th className="py-3.5 px-4">Sender</th>
                 <th className="py-3.5 px-4">Prediction</th>
@@ -344,27 +344,27 @@ export const History: React.FC = () => {
         </div>
 
         {/* Pagination Footer */}
-        <div className="px-6 py-4 bg-slate-50/70 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600">
+        <div className="px-6 py-4 bg-slate-50/70 dark:bg-[#09090b] border-t border-slate-200 dark:border-zinc-800 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-slate-600 dark:text-zinc-400">
           <div>
-            Showing <span className="font-semibold">{messages.length}</span> of{' '}
-            <span className="font-semibold">{total}</span> documents
+            Showing <span className="font-semibold text-slate-800 dark:text-zinc-200">{messages.length}</span> of{' '}
+            <span className="font-semibold text-slate-800 dark:text-zinc-200">{total}</span> documents
           </div>
 
           <div className="flex items-center gap-2">
             <button
               onClick={() => setPage((p) => Math.max(1, p - 1))}
               disabled={page <= 1}
-              className="p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
+              className="p-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
             >
               <ChevronLeft className="w-4 h-4" />
             </button>
-            <span className="font-medium">
+            <span className="font-medium text-slate-700 dark:text-zinc-300">
               Page {page} of {totalPages}
             </span>
             <button
               onClick={() => setPage((p) => Math.min(totalPages, p + 1))}
               disabled={page >= totalPages}
-              className="p-1.5 rounded-lg border border-slate-200 bg-white hover:bg-slate-100 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer transition-colors"
+              className="p-1.5 rounded-lg border border-slate-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 text-slate-700 dark:text-zinc-200 hover:bg-slate-100 dark:hover:bg-zinc-800 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer transition-colors"
             >
               <ChevronRight className="w-4 h-4" />
             </button>

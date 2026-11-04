@@ -27,7 +27,6 @@ import { api } from '../services/api';
 import { useTheme } from '../context/ThemeContext';
 import { SentinelLogo } from '../components/SentinelLogo';
 import { ShimmerButton } from '../components/ui/ShimmerButton';
-import { Mark } from '../components/ui/TextHighlight';
 import { MqxVertical } from '../components/ui/VerticalMarquee';
 import { FooterDarkBrand } from '../components/FooterDarkBrand';
 import Ballpit from '../components/ui/Ballpit';
@@ -132,8 +131,8 @@ export const LandingPage: React.FC = () => {
         <div className="absolute top-[65%] -right-32 w-80 h-80 bg-indigo-600/10 blur-[130px] rounded-full pointer-events-none" />
       </div>
 
-      {/* Modern Sticky Navigation with Sun/Moon Theme Switch */}
-      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/80 dark:bg-[#050507]/80 border-b border-slate-200/80 dark:border-zinc-800/60 transition-colors duration-200">
+      {/* Modern Sticky Navigation with Sun/Moon Theme Switch (No Horizontal Dividing Line) */}
+      <header className="sticky top-0 z-50 backdrop-blur-xl bg-white/70 dark:bg-[#000000]/70 transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-18 flex items-center justify-between">
           {/* Logo & Brand */}
           <Link to="/" className="flex items-center gap-3 group">
@@ -161,19 +160,18 @@ export const LandingPage: React.FC = () => {
             {/* Dark / Light Space Mode Toggle Button */}
             <button
               onClick={toggleTheme}
-              aria-label="Toggle Space Mode"
-              title={theme === 'dark' ? 'Switch to White Space Mode' : 'Switch to Black Space Mode'}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl border border-slate-200 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 text-slate-700 dark:text-zinc-200 hover:text-[#00BCD4] dark:hover:text-[#00BCD4] transition-all cursor-pointer shadow-xs backdrop-blur-md"
+              aria-label="Toggle Theme Mode"
+              className="flex items-center gap-2 px-3.5 py-2 rounded-xl border border-slate-300 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 text-slate-800 dark:text-zinc-100 hover:text-[#00BCD4] dark:hover:text-[#00BCD4] transition-all cursor-pointer shadow-xs font-semibold"
             >
               {theme === 'dark' ? (
                 <>
                   <Sun className="w-4 h-4 text-amber-400" />
-                  <span className="hidden sm:inline text-xs font-semibold">White Space</span>
+                  <span className="text-xs font-bold">Light Mode</span>
                 </>
               ) : (
                 <>
                   <Moon className="w-4 h-4 text-[#00BCD4]" />
-                  <span className="hidden sm:inline text-xs font-semibold">Black Space</span>
+                  <span className="text-xs font-bold">Dark Mode</span>
                 </>
               )}
             </button>
@@ -279,10 +277,10 @@ export const LandingPage: React.FC = () => {
         </div>
       )}
 
-      {/* Hero Section with React Bits Ballpit Interactive Space Effect */}
+      {/* Hero Section with React Bits Ballpit Interactive Space Effect (No Dividing Horizontal Line) */}
       <section
         id="space-hero"
-        className="relative min-h-[640px] md:min-h-[740px] flex items-center justify-center overflow-hidden border-b border-slate-200/80 dark:border-zinc-900"
+        className="relative min-h-[640px] md:min-h-[740px] flex items-center justify-center overflow-hidden"
       >
         {/* React Bits WebGL Ballpit Interactive 3D Canvas */}
         <div className="absolute inset-0 w-full h-full z-0 overflow-hidden">
@@ -314,7 +312,7 @@ export const LandingPage: React.FC = () => {
         {/* Soft Radial Depth Vignette to guarantee crystalline legibility */}
         <div
           aria-hidden="true"
-          className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_80%_65%_at_50%_50%,rgba(248,250,252,0.5)_0%,rgba(241,245,249,0.92)_100%)] dark:bg-[radial-gradient(ellipse_80%_65%_at_50%_50%,rgba(5,5,7,0.5)_0%,rgba(0,0,0,0.94)_100%)]"
+          className="pointer-events-none absolute inset-0 z-[1] bg-[radial-gradient(ellipse_80%_65%_at_50%_50%,rgba(248,250,252,0.45)_0%,rgba(241,245,249,0.92)_100%)] dark:bg-[radial-gradient(ellipse_80%_65%_at_50%_50%,rgba(5,5,7,0.45)_0%,rgba(0,0,0,0.94)_100%)]"
         />
 
         {/* Hero Overlay Content */}
@@ -332,15 +330,9 @@ export const LandingPage: React.FC = () => {
             <span className="text-[#00BCD4] font-mono font-semibold">98.74% Accuracy</span>
           </motion.div>
 
-          {/* Hero Title: High Impact with Mark highlight and Shimmer */}
+          {/* Hero Title: Clean, High-Impact Typography (Without Marker Swoop) */}
           <h1 className="text-3xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 dark:text-white max-w-4xl mx-auto leading-[1.18] font-display">
-            Where{' '}
-            <span className="pointer-events-auto">
-              <Mark delay={0.15}>
-                AI Security
-              </Mark>
-            </span>{' '}
-            &amp;{' '}
+            Where AI Security &amp;{' '}
             <span
               className="tsh-shimmer bg-clip-text text-transparent"
               style={{
@@ -359,10 +351,29 @@ export const LandingPage: React.FC = () => {
             Sub-millisecond machine learning inference paired with document-oriented persistence. Ingest, tokenize, quarantine, and aggregate communications with native PyMongo operations.
           </p>
 
-          {/* Interactive Zero-G Physics Hint Banner */}
-          <div className="mt-4 pointer-events-auto inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00BCD4]/10 border border-[#00BCD4]/30 text-[#00BCD4] text-[11px] font-semibold">
-            <Orbit className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '8s' }} />
-            <span>Zero-G Space Physics • Hover to steer • Click to burst • Drag to throw spheres</span>
+          {/* Interactive Zero-G Physics Hint & Mode Switcher */}
+          <div className="mt-5 pointer-events-auto flex flex-wrap items-center justify-center gap-2.5">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#00BCD4]/10 border border-[#00BCD4]/30 text-[#00BCD4] text-[11px] font-semibold">
+              <Orbit className="w-3.5 h-3.5 animate-spin" style={{ animationDuration: '8s' }} />
+              <span>Zero-G Space Physics • Hover to steer • Click to burst • Drag spheres</span>
+            </div>
+
+            <button
+              onClick={toggleTheme}
+              className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full border border-slate-300 dark:border-zinc-800 bg-white/90 dark:bg-zinc-900/90 text-slate-700 dark:text-zinc-300 hover:text-[#00BCD4] dark:hover:text-[#00BCD4] text-[11px] font-semibold transition-all cursor-pointer shadow-xs"
+            >
+              {theme === 'dark' ? (
+                <>
+                  <Sun className="w-3.5 h-3.5 text-amber-400" />
+                  <span>Switch to Light Mode</span>
+                </>
+              ) : (
+                <>
+                  <Moon className="w-3.5 h-3.5 text-[#00BCD4]" />
+                  <span>Switch to Dark Mode</span>
+                </>
+              )}
+            </button>
           </div>
 
           {/* Hero Action Buttons */}

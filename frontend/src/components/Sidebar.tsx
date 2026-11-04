@@ -169,32 +169,8 @@ export const Sidebar: React.FC = () => {
         }
       `}</style>
 
-      {/* Brand & Mini Logo Header */}
-      <div className="flex h-16 items-center gap-3 px-4 border-b border-slate-100 dark:border-zinc-850">
-        <SentinelLogo size={32} />
-        <AnimatePresence initial={false}>
-          {expanded ? (
-            <motion.div
-              key="brand"
-              initial={prefersReduced ? { opacity: 0 } : { opacity: 0, x: -4 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={prefersReduced ? { opacity: 0 } : { opacity: 0, x: -4 }}
-              transition={{ duration: prefersReduced ? 0 : 0.18 }}
-              className="flex flex-col min-w-0"
-            >
-              <span className="truncate text-sm font-black tracking-tight text-slate-900 dark:text-zinc-100">
-                SpamSentinel <span className="text-[#00BCD4]">AI</span>
-              </span>
-              <span className="truncate text-[10px] font-semibold text-zinc-500 uppercase tracking-widest">
-                Threat Intelligence
-              </span>
-            </motion.div>
-          ) : null}
-        </AnimatePresence>
-      </div>
-
       {/* Navigation Rail Items */}
-      <ul role="list" className="flex flex-1 flex-col gap-1 px-2.5 py-4 overflow-y-auto">
+      <ul role="list" className="flex flex-1 flex-col gap-1 px-2.5 py-3 overflow-y-auto">
         {NAV_ITEMS.map((item, index) => {
           const isActive = item.path === activeItem.path;
           const isRevealed = revealedId === item.id && !expanded;
