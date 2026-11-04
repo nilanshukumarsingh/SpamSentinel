@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { motion } from 'motion/react';
 import {
   ShieldAlert,
   ShieldCheck,
@@ -9,7 +10,6 @@ import {
   Cpu,
   BarChart3,
   CheckCircle2,
-  Terminal,
   Sparkles,
   Layers,
   ChevronRight,
@@ -17,12 +17,24 @@ import {
   Mail,
   MapPin,
   Menu,
-  X
+  X,
 } from 'lucide-react';
 import { api } from '../services/api';
 import { SentinelLogo } from '../components/SentinelLogo';
+import { ShimmerButton } from '../components/ui/ShimmerButton';
+import { Mark } from '../components/ui/TextHighlight';
+import { MqxVertical } from '../components/ui/VerticalMarquee';
+import { FooterDarkBrand } from '../components/FooterDarkBrand';
+
+const sparkles = [
+  { top: '15%', left: '10%', size: 18, delay: 0 },
+  { top: '25%', left: '86%', size: 14, delay: 1.1 },
+  { top: '75%', left: '16%', size: 12, delay: 2.2 },
+  { top: '65%', left: '82%', size: 16, delay: 0.6 },
+];
 
 export const LandingPage: React.FC = () => {
+  const navigate = useNavigate();
   const [menuOpen, setMenuOpen] = useState(false);
   const [quickInput, setQuickInput] = useState('');
   const [analyzing, setAnalyzing] = useState(false);
@@ -37,23 +49,23 @@ export const LandingPage: React.FC = () => {
     {
       label: 'Phishing Prize Scam',
       text: 'URGENT! You have won a £2,000 cash prize or holiday trip! Call 0906121 to claim your reward instantly!',
-      type: 'spam'
+      type: 'spam',
     },
     {
       label: 'Suspicious Bank Alert',
       text: 'Alert: Suspicious login attempt detected on your checking account. Click http_url to verify your identity immediately.',
-      type: 'spam'
+      type: 'spam',
     },
     {
       label: 'Doctor Appointment',
       text: 'Hi Dr. Miller, can I reschedule my appointment to Thursday at 2 PM? Thank you.',
-      type: 'ham'
+      type: 'ham',
     },
     {
       label: 'Delivery Notification',
       text: 'Your package with tracking number #88921 is out for delivery today between 1 PM and 5 PM.',
-      type: 'ham'
-    }
+      type: 'ham',
+    },
   ];
 
   const handleTestInference = async (textToTest: string) => {
@@ -65,7 +77,7 @@ export const LandingPage: React.FC = () => {
         prediction: res.prediction,
         confidence: res.confidence,
         tokens: res.highlighted_keywords || [],
-        source: res.classification_source || 'ml_model'
+        source: res.classification_source || 'ml_model',
       });
     } catch {
       const isSpam = /won|prize|cash|claim|urgent|http_url/i.test(textToTest);
@@ -73,7 +85,7 @@ export const LandingPage: React.FC = () => {
         prediction: isSpam ? 'spam' : 'ham',
         confidence: 0.987,
         tokens: isSpam ? ['prize', 'cash', 'claim', 'urgent'] : ['appointment', 'reschedule'],
-        source: 'ml_model'
+        source: 'ml_model',
       });
     } finally {
       setAnalyzing(false);
@@ -82,17 +94,54 @@ export const LandingPage: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-[#000000] text-zinc-100 flex flex-col font-sans selection:bg-[#00BCD4] selection:text-black antialiased relative overflow-x-hidden">
-      
+      <style>{`
+        @keyframes tsh-shine {
+          0% { background-position: 140% center; }
+          100% { background-position: -40% center; }
+        }
+        .tsh-shimmer {
+          background-size: 240% auto;
+          animation: tsh-shine 3.6s linear infinite;
+        }
+        .tsh-shimmer:hover { animation-duration: 1.5s; }
+        @keyframes tsh-twinkle {
+          0%, 100% { opacity: 0.2; transform: scale(0.8); }
+          50% { opacity: 1; transform: scale(1.15); }
+        }
+        .tsh-spark { animation: tsh-twinkle 3s ease-in-out infinite; }
+      `}</style>
+
       {/* Topographic Background Overlay */}
-      <div 
+      <div
         className="fixed inset-0 pointer-events-none opacity-5 z-0 bg-repeat"
         style={{
           backgroundImage: 'radial-gradient(#ffffff 1px, transparent 1px)',
-          backgroundSize: '24px 24px'
+          backgroundSize: '24px 24px',
         }}
       />
 
-      {/* Modern Sticky Navigation */}
+      {/* Twinkling ambient sparkles */}
+      <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
+        <div className="absolute left-1/2 top-48 h-[28rem] w-[28rem] -translate-x-1/2 rounded-full bg-gradient-to-br from-cyan-600/15 via-indigo-600/10 to-transparent blur-3xl" />
+        {sparkles.map((s, i) => (
+          <svg
+            key={i}
+            viewBox="0 0 24 24"
+            className="tsh-spark absolute fill-[#00BCD4]/70"
+            style={{
+              top: s.top,
+              left: s.left,
+              width: s.size,
+              height: s.size,
+              animationDelay: `${s.delay}s`,
+            }}
+          >
+            <path d="M12 0l2.4 8.4L22 12l-7.6 3.6L12 24l-2.4-8.4L2 12l7.6-3.6L12 0z" />
+          </svg>
+        ))}
+      </div>
+
+      {/* Sticky Top Navigation */}
       <header className="sticky top-0 z-50 backdrop-blur-md bg-black/85 border-b border-zinc-800/80">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
           {/* Logo & Brand */}
@@ -109,22 +158,23 @@ export const LandingPage: React.FC = () => {
           </Link>
 
           {/* Center Links */}
-          <nav className="hidden md:flex items-center gap-8 text-sm font-bold uppercase tracking-wider text-zinc-300">
+          <nav className="hidden md:flex items-center gap-8 text-xs font-bold uppercase tracking-wider text-zinc-300">
             <a href="#demo" className="hover:text-[#00BCD4] transition-colors">Classifier</a>
             <a href="#capabilities" className="hover:text-[#00BCD4] transition-colors">Capabilities</a>
-            <a href="#architecture" className="hover:text-[#00BCD4] transition-colors">Architecture</a>
+            <a href="#telemetry" className="hover:text-[#00BCD4] transition-colors">Telemetry</a>
             <a href="#nosql" className="hover:text-[#00BCD4] transition-colors">PyMongo CRUD</a>
           </nav>
 
           {/* Right Action & Menu Toggle */}
           <div className="flex items-center gap-4">
-            <Link
-              to="/dashboard"
-              className="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-[#00BCD4] text-black font-extrabold text-xs uppercase tracking-wider hover:bg-cyan-300 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-cyan-500/20 cursor-pointer"
+            <ShimmerButton
+              onClick={() => navigate('/dashboard')}
+              shimmerColor="#00BCD4"
+              borderRadius="12px"
+              className="hidden sm:inline-flex text-xs font-black uppercase tracking-wider !px-5 !py-2.5 shadow-md cursor-pointer"
             >
-              <span>Launch Studio</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+              <span>Launch Studio →</span>
+            </ShimmerButton>
 
             {/* Hamburger Button for Takeover Navigation */}
             <button
@@ -209,37 +259,57 @@ export const LandingPage: React.FC = () => {
         </div>
       )}
 
-      {/* Hero Section */}
+      {/* Hero Section with Shimmer Text & Highlighting */}
       <section className="relative z-10 pt-16 pb-24 md:pt-28 md:pb-36 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
         {/* Release Pill Badge */}
-        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/80 text-zinc-300 text-xs font-medium mb-8 shadow-inner">
+        <motion.div
+          initial={{ opacity: 0, y: -12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-zinc-800 bg-zinc-900/80 text-zinc-300 text-xs font-medium mb-8 shadow-inner"
+        >
           <Sparkles className="w-3.5 h-3.5 text-[#00BCD4]" />
           <span>Real-time TF-IDF + Multinomial Naive Bayes Engine</span>
           <span className="w-1.5 h-1.5 rounded-full bg-[#00BCD4]" />
           <span className="text-[#00BCD4] font-mono font-bold">98.74% Accuracy</span>
-        </div>
+        </motion.div>
 
-        {/* Hero Title */}
-        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white max-w-5xl mx-auto leading-[1.08]">
-          Where AI Security &amp; <br />
-          <span className="text-[#00BCD4]">
+        {/* Hero Title with Shimmer and Marker Highlight */}
+        <h1 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white max-w-5xl mx-auto leading-[1.12]">
+          Where{' '}
+          <Mark hue="cyan" styleKey="underline" delay={0.2}>
+            AI Security
+          </Mark>{' '}
+          &amp;{' '}
+          <span
+            className="tsh-shimmer bg-clip-text text-transparent"
+            style={{
+              backgroundImage:
+                'linear-gradient(110deg,#00BCD4 18%,#38bdf8 38%,#ffffff 50%,#38bdf8 62%,#00BCD4 82%)',
+            }}
+          >
             MongoDB NoSQL
-          </span> Meet.
+          </span>{' '}
+          Meet.
         </h1>
 
         <p className="mt-6 text-base sm:text-lg text-zinc-400 max-w-2xl mx-auto font-normal leading-relaxed">
-          High-precision text intelligence paired with native document persistence. Ingest, tokenize, quarantine, and aggregate communications with sub-millisecond PyMongo queries.
+          Sub-millisecond machine learning inference paired with document-oriented persistence. Ingest, tokenize, quarantine, and aggregate communications with native PyMongo operations.
         </p>
 
-        {/* Hero CTA Buttons */}
+        {/* Hero Action Buttons */}
         <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
-          <Link
-            to="/dashboard"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-xl bg-[#00BCD4] text-black font-black text-sm uppercase tracking-wider hover:bg-cyan-300 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-cyan-500/20 cursor-pointer"
+          <ShimmerButton
+            onClick={() => navigate('/dashboard')}
+            shimmerColor="#00BCD4"
+            borderRadius="14px"
+            className="w-full sm:w-auto text-sm font-black uppercase tracking-wider !px-8 !py-4 shadow-xl cursor-pointer"
           >
-            <span>Open Dashboard</span>
-            <ChevronRight className="w-4 h-4" />
-          </Link>
+            <span className="flex items-center gap-2">
+              <span>Open Dashboard</span>
+              <ChevronRight className="w-4 h-4" />
+            </span>
+          </ShimmerButton>
 
           <Link
             to="/detector"
@@ -453,6 +523,11 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
+      {/* Vertical Marquee Section */}
+      <div id="telemetry">
+        <MqxVertical />
+      </div>
+
       {/* NoSQL Viva Operations Catalog */}
       <section id="nosql" className="relative z-10 py-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
         <div className="text-center max-w-3xl mx-auto mb-12">
@@ -507,27 +582,8 @@ export const LandingPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="relative z-10 border-t border-zinc-900 bg-black py-12 px-4 sm:px-6 lg:px-8 mt-auto">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-3">
-            <SentinelLogo size={32} />
-            <div>
-              <span className="font-bold text-white text-sm">SpamSentinel AI</span>
-              <p className="text-xs text-zinc-500">Intelligent SMS &amp; Email Spam Detection System</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-4">
-            <Link
-              to="/dashboard"
-              className="px-5 py-2.5 rounded-xl bg-[#00BCD4] hover:bg-cyan-300 text-black text-xs font-black uppercase tracking-wider transition-all cursor-pointer"
-            >
-              Open Application Studio
-            </Link>
-          </div>
-        </div>
-      </footer>
+      {/* Giant Typography Brand Footer */}
+      <FooterDarkBrand />
     </div>
   );
 };
